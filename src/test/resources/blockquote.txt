@@ -1,0 +1,12 @@
+# Test 1 (paragraph splitting)
+Mon texte de paragraphe.
+
+> Ce texte est une belle citation !! 
+
+And this is the second.
+
+# Result 1
+<paragraph>Mon texte de paragraphe.</paragraph>
+<citation>Ce texte est une belle citation !!</citation>
+<paragraph>And this is the second.</paragraph>
+

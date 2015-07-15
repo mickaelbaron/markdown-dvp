@@ -1,0 +1,5 @@
+# Test 1 (encode dash, greater than, and less than)
+Span-level HTML tags -- e.g. `<span>`, `<cite>`, or `<del>`
+
+# Result 1
+<paragraph>Span-level HTML tags -- e.g. `<span>`, `<cite>`, or `<del>`</paragraph>

@@ -1,0 +1,8 @@
+# Test 1 (code spans)
+This is the `first` paragraph.
+
+And `this` is `the` second.
+
+# Result 1
+<paragraph>This is the <inline>first</inline> paragraph.</paragraph>
+<paragraph>And <inline>this</inline> is <inline>the</inline> second.</paragraph>

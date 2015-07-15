@@ -1,0 +1,8 @@
+# Test 1 (strike)
+This is the ~~first~~ paragraph.
+
+And ~~this~~ is ~~the~~ second.
+
+# Result 1
+<paragraph>This is the <s>first</s> paragraph.</paragraph>
+<paragraph>And <s>this</s> is <s>the</s> second.</paragraph>

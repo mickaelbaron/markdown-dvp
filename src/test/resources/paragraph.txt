@@ -1,0 +1,9 @@
+# Test 1 (paragraph splitting)
+This is the first paragraph.
+
+And this is the second.
+
+# Result 1
+<paragraph>This is the first paragraph.</paragraph>
+<paragraph>And this is the second.</paragraph>
+

@@ -1,0 +1,14 @@
+# Test 1 (emphase)
+This is the *first* paragraph.
+
+And *this* is *the* second.
+
+This is a _third_ paragrah.
+
+This _is_ the _last_ paragraph.
+
+# Result 1
+<paragraph>This is the <i>first</i> paragraph.</paragraph>
+<paragraph>And <i>this</i> is <i>the</i> second.</paragraph>
+<paragraph>This is a <i>third</i> paragrah.</paragraph>
+<paragraph>This <i>is</i> the <i>last</i> paragraph.</paragraph>

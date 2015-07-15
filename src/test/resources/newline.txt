@@ -1,0 +1,11 @@
+# Test 1 (newline)
+This is the first paragraph.
+
+And this is the second.  
+And the third
+
+# Result 1
+<paragraph>This is the first paragraph.</paragraph>
+<paragraph>And this is the second.<br />
+And the third</paragraph>
+

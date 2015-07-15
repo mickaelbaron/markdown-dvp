@@ -1,0 +1,106 @@
+# Test 1 (Unordered list)
+
+Ceci est un paragraphe
+
+- Todo
+- Tudu
+- Popo
+
+Paragraphe en la prochaine puce.
+
+- Todo
+- Tudu
+- Popo
+
+
+# Result 1
+<paragraph>Ceci est un paragraphe</paragraph>
+<liste>
+<element useText="0">Todo</element>
+<element useText="0">Tudu</element>
+<element useText="0">Popo</element>
+</liste>
+<paragraph>Paragraphe en la prochaine puce.</paragraph>
+<liste>
+<element useText="0">Todo</element>
+<element useText="0">Tudu</element>
+<element useText="0">Popo</element>
+</liste>
+
+# Test 2 (Unordered list with different item symbol)
+
+Ceci est un paragraphe
+
+- Todo
+- Tudu
+- Popo
+
+Paragraphe en la prochaine puce.
+
++ Todo
++ Tudu
++ Popo
+
+Paragraphe en la prochaine puce.
+
+* Todo
+* Tudu
+* Popo
+
+Paragraphe en la prochaine puce.
+
+- Todo
++ Tudu
+* Popo
+
+# Result 2
+<paragraph>Ceci est un paragraphe</paragraph>
+<liste>
+<element useText="0">Todo</element>
+<element useText="0">Tudu</element>
+<element useText="0">Popo</element>
+</liste>
+<paragraph>Paragraphe en la prochaine puce.</paragraph>
+<liste>
+<element useText="0">Todo</element>
+<element useText="0">Tudu</element>
+<element useText="0">Popo</element>
+</liste>
+<paragraph>Paragraphe en la prochaine puce.</paragraph>
+<liste>
+<element useText="0">Todo</element>
+<element useText="0">Tudu</element>
+<element useText="0">Popo</element>
+</liste>
+<paragraph>Paragraphe en la prochaine puce.</paragraph>
+<liste>
+<element useText="0">Todo</element>
+<element useText="0">Tudu</element>
+<element useText="0">Popo</element>
+</liste>
+
+# Test 3 (Embedded unordered list)
+
+Ceci est un paragraphe
+
+- Todo
+- Tudu
+	* Embdedded 1
+	* Embdedded 2
+- Popo
+
+Paragraphe en la prochaine puce.
+
+# Result 3
+<paragraph>Ceci est un paragraphe</paragraph>
+<liste>
+<element useText="0">Todo</element>
+<element useText="0">Tudu
+<liste>
+<element useText="0">Embdedded 1</element>
+<element useText="0">Embdedded 2</element>
+</liste>
+</element>
+<element useText="0">Popo</element>
+</liste>
+<paragraph>Paragraphe en la prochaine puce.</paragraph>

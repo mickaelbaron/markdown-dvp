@@ -1,0 +1,61 @@
+# Test 1 (setext-style headers)
+Header 1
+========
+
+Header 2
+--------
+# Result 1
+<section>
+<title>Header 1</title>
+<section>
+<title>Header 2</title>
+</section>
+</section>
+
+# Test 2 (atx-style headers)
+# Header 1 #
+
+## Header 2 ##
+
+# Result 2
+<section>
+<title>Header 1</title>
+<section>
+<title>Header 2</title>
+</section>
+</section>
+
+# Test 3 (setext-style headers)
+Header 1
+========
+
+Header 2
+========
+# Result 3
+<section>
+<title>Header 1</title>
+</section>
+<section>
+<title>Header 2</title>
+</section>
+
+# Test 4 (setext-style headers with paragraph)
+Header 1
+========
+
+bonjour, je m'appelle Mickael Baron
+
+Header 2
+========
+
+bonjour, je suis la fin.
+
+# Result 4
+<section>
+<title>Header 1</title>
+<paragraph>bonjour, je m'appelle Mickael Baron</paragraph>
+</section>
+<section>
+<title>Header 2</title>
+<paragraph>bonjour, je suis la fin.</paragraph>
+</section>

@@ -1,0 +1,8 @@
+# Test 1 (superscript)
+This is the ~first~ paragraph.
+
+And ~this~ is ~the~ second.
+
+# Result 1
+<paragraph>This is the <sub>first</sub> paragraph.</paragraph>
+<paragraph>And <sub>this</sub> is <sub>the</sub> second.</paragraph>

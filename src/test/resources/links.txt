@@ -1,0 +1,97 @@
+# Test 1 (auto-links)
+Go to <http://www.petebevin.com/> and poke around.
+
+# Result 1
+<paragraph>Go to <link href="http://www.petebevin.com/">http://www.petebevin.com/</link> and poke around.</paragraph>
+
+# Test 2 (auto-links only inside angle brackets)
+Go to http://www.petebevin.com/ and poke around.
+
+# Result 2
+<paragraph>Go to http://www.petebevin.com/ and poke around.</paragraph>
+
+# Test 3 (Links/Inline, no title)
+An [example](http://www.example.com/)
+
+# Result 3
+<paragraph>An <link href="http://www.example.com/">example</link></paragraph>
+
+# Test 4 (Links/Inline, with title)
+An [example](http://url.com/ "Title")
+
+# Result 4
+<paragraph>An <link href="http://url.com/" title="Title">example</link></paragraph>
+
+# Test 5 (Relative path)
+See my [About](/about/) page for details. 
+
+# Result 5
+<paragraph>See my <link href="/about/">About</link> page for details.</paragraph>
+
+# Test 6 (Links with reference)
+This is [an example][id] reference-style link.
+
+This is [an example] [id] reference-style link.
+
+This is [an example]
+[id] reference-style link.
+
+[id]: http://mbaron.developpez.com  "Page de Mickael BARON"
+
+# Result 6
+<paragraph>This is <link href="http://mbaron.developpez.com" title="Page de Mickael BARON">an example</link> reference-style link.</paragraph>
+<paragraph>This is <link href="http://mbaron.developpez.com" title="Page de Mickael BARON">an example</link> reference-style link.</paragraph>
+<paragraph>This is <link href="http://mbaron.developpez.com" title="Page de Mickael BARON">an example</link> reference-style link.</paragraph>
+
+# Test 7 (Several links definitions)
+This is [an example][foo1] reference-style link.
+
+This is [an example][foo2] reference-style link.
+
+This is [an example][foo3] reference-style link.
+
+[foo1]: http://mbaron.developpez.com "Page de Mickael BARON 1"
+[foo2]: http://mbaron.developpez.com 'Page de Mickael BARON 2'
+[foo3]: http://mbaron.developpez.com (Page de Mickael BARON 3)
+
+# Result 7
+<paragraph>This is <link href="http://mbaron.developpez.com" title="Page de Mickael BARON 1">an example</link> reference-style link.</paragraph>
+<paragraph>This is <link href="http://mbaron.developpez.com" title="Page de Mickael BARON 2">an example</link> reference-style link.</paragraph>
+<paragraph>This is <link href="http://mbaron.developpez.com" title="Page de Mickael BARON 3">an example</link> reference-style link.</paragraph>
+
+# Test 8 (Link definition is no case sensitive)
+This is [an example][ref] reference-style link.
+
+This is [an example][REF] reference-style link.
+
+[ref]: http://mbaron.developpez.com  "Page de Mickael BARON"
+
+# Result 8
+<paragraph>This is <link href="http://mbaron.developpez.com" title="Page de Mickael BARON">an example</link> reference-style link.</paragraph>
+<paragraph>This is <link href="http://mbaron.developpez.com" title="Page de Mickael BARON">an example</link> reference-style link.</paragraph>
+
+# Test 9 (Implicit link name)
+This is [MBaron][] reference-style link.
+
+[MBaron]: http://mbaron.developpez.com  "Page de Mickael BARON"
+
+# Result 9
+<paragraph>This is <link href="http://mbaron.developpez.com" title="Page de Mickael BARON">MBaron</link> reference-style link.</paragraph>
+
+# Test 10 (Implicit link name with spaces)
+This is [Mickael Baron][] reference-style link.
+
+[Mickael Baron]: http://mbaron.developpez.com  "Page de Mickael BARON"
+
+# Result 10
+<paragraph>This is <link href="http://mbaron.developpez.com" title="Page de Mickael BARON">Mickael Baron</link> reference-style link.</paragraph>
+
+# Test 11 (Several links with indents)
+I get 10 times more traffic from [Google] [1] than from [Yahoo] [2] or [MSN] [3].
+
+  [1]: http://google.com/        "Google"
+  [2]: http://search.yahoo.com/  "Yahoo Search"
+  [3]: http://search.msn.com/    "MSN Search"
+  
+# Result 11
+<paragraph>I get 10 times more traffic from <link href="http://google.com/" title="Google">Google</link> than from <link href="http://search.yahoo.com/" title="Yahoo Search">Yahoo</link> or <link href="http://search.msn.com/" title="MSN Search">MSN</link>.</paragraph>

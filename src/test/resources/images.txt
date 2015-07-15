@@ -1,0 +1,45 @@
+# Test 1 (image block)
+![Alt text](/path/to/img.jpg)
+
+# Result 1
+<image src="/path/to/img.jpg" alt="Alt text" />
+
+# Test 2 (image block with title)
+![Alt text](/path/to/img.jpg "Optional title attribute")
+
+# Result 2
+<image src="/path/to/img.jpg" alt="Alt text" titre="Optional title attribute" />
+
+# Test 3 (reference-style image)
+![Alt text][id]
+
+[id]: /path/to/img.jpg
+
+# Result 3
+<image src="/path/to/img.jpg" alt="Alt text" />
+
+# Test 4 (reference-style image with title)
+![Alt text][id]
+
+[id]: /path/to/img.jpg "Optional title attribute"
+
+# Result 4
+<image src="/path/to/img.jpg" alt="Alt text" titre="Optional title attribute" />
+
+# Test 5 (image block after image)
+![Alt text](/path/to/img.jpg)
+
+# Result 5
+<image src="/path/to/img.jpg" alt="Alt text" />
+
+# Test 6 (image block with paragraph)
+This is a text before image ![Alt text](/path/to/img.jpg)
+
+![Alt text](/path/to/img.jpg) This is a text after image
+
+This is a text before image ![Alt text](/path/to/img.jpg) This is a text after image
+
+# Result 6
+<paragraph>This is a text before image <image src="/path/to/img.jpg" alt="Alt text" /></paragraph>
+<paragraph><image src="/path/to/img.jpg" alt="Alt text" /> This is a text after image</paragraph>
+<paragraph>This is a text before image <image src="/path/to/img.jpg" alt="Alt text" /> This is a text after image</paragraph>

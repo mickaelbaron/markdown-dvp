@@ -1,0 +1,14 @@
+# Test 1 (strong)
+This is the **first** paragraph.
+
+And **this** is **the** second.
+
+This is a __third__ paragrah.
+
+This __is__ the __last__ paragraph.
+
+# Result 1
+<paragraph>This is the <b>first</b> paragraph.</paragraph>
+<paragraph>And <b>this</b> is <b>the</b> second.</paragraph>
+<paragraph>This is a <b>third</b> paragrah.</paragraph>
+<paragraph>This <b>is</b> the <b>last</b> paragraph.</paragraph>
