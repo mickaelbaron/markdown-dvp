@@ -15,11 +15,16 @@ import com.github.rjeschke.txtmark.Utils;
  */
 public class DVPDecorator extends DefaultDecorator {
 
-    private boolean[] sectionState = { false, false, false, false, false, false };
+    private char[] pattern = { 'I', 'a', '1', '1', '1', '1' };
+
+    private boolean[] sectionState = { false, false, false, false, false,
+	    false };
+
+    private int[] sectionIndex = { 0, 0, 0, 0, 0, 0 };
 
     private int currentEmbeddedList = 0;
-    
-    public static String RomanNumerals(int Int) {
+
+    private String getRomanNumeralsFromNumber(int Int) {
 	LinkedHashMap<String, Integer> roman_numerals = new LinkedHashMap<String, Integer>();
 	roman_numerals.put("M", 1000);
 	roman_numerals.put("CM", 900);
@@ -41,6 +46,28 @@ public class DVPDecorator extends DefaultDecorator {
 	    Int = Int % entry.getValue();
 	}
 	return res;
+    }
+
+    private String getLetterFromNumber(int i) {
+	// return null for bad input
+	if (i < 0) {
+	    return null;
+	}
+
+	// convert to base 26
+	String s = Integer.toString(i, 26);
+
+	char[] characters = s.toCharArray();
+
+	String result = "";
+	for (char c : characters) {
+	    // convert the base 26 character back to a base 10 integer
+	    int x = Integer.parseInt(Character.valueOf(c).toString(), 26);
+	    // append the ASCII value to the result
+	    result += String.valueOf((char) (x + 'a'));
+	}
+
+	return result;
     }
 
     public static String repeat(String s, int n) {
@@ -106,15 +133,47 @@ public class DVPDecorator extends DefaultDecorator {
 
     @Override
     public void openHeadline(StringBuilder out, int level) {
-	if (sectionState[level]) {
-	    out.append("</section>\n");
-	    sectionState[level] = false;
+	if (sectionState[level - 1]) {
+	    for (int i = (level - 1); i < sectionState.length; i++) {
+		if (sectionState[i]) {
+		    out.append("</section>\n");
+		    sectionState[i] = false;
+		}
+	    }
+	    for (int i = level; i < sectionIndex.length; i++) {
+		sectionIndex[i] = 0;
+	    }
 	}
 
-	out.append("<section>\n");
+	sectionIndex[level - 1]++;
+	out.append("<section id=\"" + displayHeadline(level) + "\">\n");
 	out.append("<title>");
+	sectionState[level - 1] = true;
+    }
 
-	sectionState[level] = true;
+    private String displayLevel(int level, int sectionNumber) {
+	char currentChar = this.pattern[level];
+
+	switch (currentChar) {
+	case 'I':
+	    return this.getRomanNumeralsFromNumber(sectionNumber);
+	case '1':
+	    return Integer.toString(sectionNumber);
+	case 'a':
+	    return this.getLetterFromNumber(sectionNumber - 1);
+	default:
+	    return Integer.toString(sectionNumber);
+	}
+    }
+
+    private String displayHeadline(int level) {
+	StringBuffer value = new StringBuffer();
+	for (int i = 0; i <= (level - 1); i++) {
+	    value.append(displayLevel(i, sectionIndex[i]));
+	    if (i != (level - 1))
+		value.append(".");
+	}
+	return value.toString();
     }
 
     @Override
@@ -133,9 +192,9 @@ public class DVPDecorator extends DefaultDecorator {
 	    out.append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
 	    out.append("<document>");
 
-	    // Ajouter la partie en-tête
-	    // Ajouter la partie author
-	    // Ajouter la partie synopsis
+	    // Add head part.
+	    // Add authors part.
+	    // Add synopsis part.
 	}
     }
 
@@ -197,11 +256,11 @@ public class DVPDecorator extends DefaultDecorator {
 	if (currentEmbeddedList != 0) {
 	    out.append("\n<liste");
 	} else {
-	    out.append("<liste");	    
+	    out.append("<liste");
 	}
-	
+
 	out.append(">\n");
-	
+
 	currentEmbeddedList++;
     }
 
@@ -224,7 +283,7 @@ public class DVPDecorator extends DefaultDecorator {
     @Override
     public void openImage(StringBuilder out, String src, String alt,
 	    String title) {
-	out.append("<image");	
+	out.append("<image");
 	out.append(" src=\"");
 	Utils.appendValue(out, src, 0, src.length());
 	out.append("\" alt=\"");

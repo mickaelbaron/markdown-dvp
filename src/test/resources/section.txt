@@ -5,9 +5,9 @@ Header 1
 Header 2
 --------
 # Result 1
-<section>
+<section id="I">
 <title>Header 1</title>
-<section>
+<section id="I.a">
 <title>Header 2</title>
 </section>
 </section>
@@ -18,9 +18,9 @@ Header 2
 ## Header 2 ##
 
 # Result 2
-<section>
+<section id="I">
 <title>Header 1</title>
-<section>
+<section id="I.a">
 <title>Header 2</title>
 </section>
 </section>
@@ -32,10 +32,10 @@ Header 1
 Header 2
 ========
 # Result 3
-<section>
+<section id="I">
 <title>Header 1</title>
 </section>
-<section>
+<section id="II">
 <title>Header 2</title>
 </section>
 
@@ -51,11 +51,69 @@ Header 2
 bonjour, je suis la fin.
 
 # Result 4
-<section>
+<section id="I">
 <title>Header 1</title>
 <paragraph>bonjour, je m'appelle Mickael Baron</paragraph>
 </section>
-<section>
+<section id="II">
 <title>Header 2</title>
 <paragraph>bonjour, je suis la fin.</paragraph>
+</section>
+
+# Test 5 (setext-style headers)
+Header 1
+========
+
+Header 11
+---------
+
+Header 12
+---------
+
+Header 2
+========
+
+Header 21
+---------
+
+Header 22
+---------
+
+Header 23
+---------
+
+Header 24
+---------
+
+Header 25
+---------
+
+
+# Result 5
+<section id="I">
+<title>Header 1</title>
+<section id="I.a">
+<title>Header 11</title>
+</section>
+<section id="I.b">
+<title>Header 12</title>
+</section>
+</section>
+<section id="II">
+<title>Header 2</title>
+<section id="II.a">
+<title>Header 21</title>
+</section>
+<section id="II.b">
+<title>Header 22</title>
+</section>
+<section id="II.c">
+<title>Header 23</title>
+</section>
+<section id="II.d">
+<title>Header 24</title>
+</section>
+<section id="II.e">
+<title>Header 25</title>
+</section>
 </section>
