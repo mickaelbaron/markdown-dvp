@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import com.github.rjeschke.txtmark.DefaultDecorator;
 import com.github.rjeschke.txtmark.Utils;
@@ -15,71 +13,16 @@ import com.github.rjeschke.txtmark.Utils;
  */
 public class DVPDecorator extends DefaultDecorator {
 
-    private char[] pattern = { 'I', 'a', '1', '1', '1', '1' };
+    protected char[] pattern = { 'I', 'a', '1', '1', '1', '1' };
 
-    private boolean[] sectionState = { false, false, false, false, false,
+    protected boolean[] sectionState = { false, false, false, false, false,
 	    false };
 
-    private int[] sectionIndex = { 0, 0, 0, 0, 0, 0 };
+    protected int[] sectionIndex = { 0, 0, 0, 0, 0, 0 };
 
-    private int currentEmbeddedList = 0;
+    protected int currentEmbeddedList = 0;
 
-    private String getRomanNumeralsFromNumber(int Int) {
-	LinkedHashMap<String, Integer> roman_numerals = new LinkedHashMap<String, Integer>();
-	roman_numerals.put("M", 1000);
-	roman_numerals.put("CM", 900);
-	roman_numerals.put("D", 500);
-	roman_numerals.put("CD", 400);
-	roman_numerals.put("C", 100);
-	roman_numerals.put("XC", 90);
-	roman_numerals.put("L", 50);
-	roman_numerals.put("XL", 40);
-	roman_numerals.put("X", 10);
-	roman_numerals.put("IX", 9);
-	roman_numerals.put("V", 5);
-	roman_numerals.put("IV", 4);
-	roman_numerals.put("I", 1);
-	String res = "";
-	for (Map.Entry<String, Integer> entry : roman_numerals.entrySet()) {
-	    int matches = Int / entry.getValue();
-	    res += repeat(entry.getKey(), matches);
-	    Int = Int % entry.getValue();
-	}
-	return res;
-    }
 
-    private String getLetterFromNumber(int i) {
-	// return null for bad input
-	if (i < 0) {
-	    return null;
-	}
-
-	// convert to base 26
-	String s = Integer.toString(i, 26);
-
-	char[] characters = s.toCharArray();
-
-	String result = "";
-	for (char c : characters) {
-	    // convert the base 26 character back to a base 10 integer
-	    int x = Integer.parseInt(Character.valueOf(c).toString(), 26);
-	    // append the ASCII value to the result
-	    result += String.valueOf((char) (x + 'a'));
-	}
-
-	return result;
-    }
-
-    public static String repeat(String s, int n) {
-	if (s == null) {
-	    return null;
-	}
-	final StringBuilder sb = new StringBuilder();
-	for (int i = 0; i < n; i++) {
-	    sb.append(s);
-	}
-	return sb.toString();
-    }
 
     @Override
     public void openParagraph(StringBuilder out) {
@@ -156,11 +99,11 @@ public class DVPDecorator extends DefaultDecorator {
 
 	switch (currentChar) {
 	case 'I':
-	    return this.getRomanNumeralsFromNumber(sectionNumber);
+	    return DVPUtils.getRomanNumeralsFromNumber(sectionNumber);
 	case '1':
 	    return Integer.toString(sectionNumber);
 	case 'a':
-	    return this.getLetterFromNumber(sectionNumber - 1);
+	    return DVPUtils.getLetterFromNumber(sectionNumber - 1);
 	default:
 	    return Integer.toString(sectionNumber);
 	}
@@ -187,27 +130,11 @@ public class DVPDecorator extends DefaultDecorator {
     }
 
     @Override
-    public void openDocument(StringBuilder out, boolean enableDocument) {
-	if (enableDocument) {
-	    out.append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
-	    out.append("<document>");
-
-	    // Add head part.
-	    // Add authors part.
-	    // Add synopsis part.
-	}
-    }
-
-    @Override
-    public void closeDocument(StringBuilder out, boolean enableDocument) {
+    public void closeDocument(StringBuilder out) {
 	for (boolean current : sectionState) {
 	    if (current) {
 		out.append("</section>\n");
 	    }
-	}
-
-	if (enableDocument) {
-	    out.append("</document>");
 	}
     }
 

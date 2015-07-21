@@ -22,24 +22,14 @@ package com.github.rjeschke.txtmark;
  */
 enum LineType {
     /** Empty line. */
-    EMPTY,
-    /** Undefined content. */
-    OTHER,
-    /** A markdown headline. */
-    HEADLINE, HEADLINE1, HEADLINE2,
-    /** A code block line. */
-    CODE,
-    /** A list. */
-    ULIST, OLIST,
-    /** A block quote. */
-    BQUOTE,
-    /** A horizontal ruler. */
-    HR,
-    /** Start of a XML block. */
-    XML,
-    /** Fenced code block start/end */
-    FENCED_CODE,
-    /** plugin block */
-    PLUGIN,
+    EMPTY, /** Undefined content. */
+    OTHER, /** A markdown headline. */
+    HEADLINE, HEADLINE1, HEADLINE2, /** A code block line. */
+    CODE, /** A list. */
+    ULIST, OLIST, /** A block quote. */
+    BQUOTE, /** A horizontal ruler. */
+    HR, /** Start of a XML block. */
+    XML, /** Fenced code block start/end */
+    FENCED_CODE, 
     IMAGE
 }

@@ -469,13 +469,8 @@ public interface Decorator {
     /**
      * @param out
      */
-    void openDocument(StringBuilder out, boolean hideContent);
+    void closeDocument(StringBuilder out);
 
-    /**
-     * @param out
-     */
-    void closeDocument(StringBuilder out, boolean hideContent);    
-    
     /**
      * @param out
      */

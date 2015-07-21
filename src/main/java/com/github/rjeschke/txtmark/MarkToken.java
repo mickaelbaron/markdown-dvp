@@ -22,8 +22,7 @@ package com.github.rjeschke.txtmark;
  */
 enum MarkToken {
     /** No token. */
-    NONE,
-    /** &#x2a; */
+    NONE, /** &#x2a; */
     EM_STAR, // x*x
     /** _ */
     EM_UNDERSCORE, // x_x

@@ -42,49 +42,65 @@ public class DefaultDecorator implements Decorator {
 	// empty
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#openParagraph(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#openParagraph(StringBuilder)
+     */
     @Override
     public void openParagraph(StringBuilder out) {
 	out.append("<p>");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#closeParagraph(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#closeParagraph(StringBuilder)
+     */
     @Override
     public void closeParagraph(StringBuilder out) {
 	out.append("</p>\n");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#openBlockquote(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#openBlockquote(StringBuilder)
+     */
     @Override
     public void openBlockquote(StringBuilder out) {
 	out.append("<blockquote>");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#closeBlockquote(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#closeBlockquote(StringBuilder)
+     */
     @Override
     public void closeBlockquote(StringBuilder out) {
 	out.append("</blockquote>\n");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#openCodeBlock(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#openCodeBlock(StringBuilder)
+     */
     @Override
     public void openCodeBlock(StringBuilder out) {
 	out.append("<pre><code>");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#closeCodeBlock(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#closeCodeBlock(StringBuilder)
+     */
     @Override
     public void closeCodeBlock(StringBuilder out) {
 	out.append("</code></pre>\n");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#openCodeSpan(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#openCodeSpan(StringBuilder)
+     */
     @Override
     public void openCodeSpan(StringBuilder out) {
 	out.append("<code>");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#closeCodeSpan(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#closeCodeSpan(StringBuilder)
+     */
     @Override
     public void closeCodeSpan(StringBuilder out) {
 	out.append("</code>");
@@ -111,108 +127,136 @@ public class DefaultDecorator implements Decorator {
 	out.append(">\n");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#openStrong(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#openStrong(StringBuilder)
+     */
     @Override
     public void openStrong(StringBuilder out) {
 	out.append("<strong>");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#closeStrong(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#closeStrong(StringBuilder)
+     */
     @Override
     public void closeStrong(StringBuilder out) {
 	out.append("</strong>");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#openStrong(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#openStrong(StringBuilder)
+     */
     @Override
     public void openStrike(StringBuilder out) {
 	out.append("<s>");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#closeStrong(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#closeStrong(StringBuilder)
+     */
     @Override
     public void closeStrike(StringBuilder out) {
 	out.append("</s>");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#openEmphasis(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#openEmphasis(StringBuilder)
+     */
     @Override
     public void openEmphasis(StringBuilder out) {
 	out.append("<em>");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#closeEmphasis(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#closeEmphasis(StringBuilder)
+     */
     @Override
     public void closeEmphasis(StringBuilder out) {
 	out.append("</em>");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#openSuper(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#openSuper(StringBuilder)
+     */
     @Override
     public void openSuper(StringBuilder out) {
 	out.append("<sup>");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#closeSuper(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#closeSuper(StringBuilder)
+     */
     @Override
     public void closeSuper(StringBuilder out) {
 	out.append("</sup>");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#openOrderedList(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#openOrderedList(StringBuilder)
+     */
     @Override
     public void openOrderedList(StringBuilder out) {
 	out.append("<ol>\n");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#closeOrderedList(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#closeOrderedList(StringBuilder)
+     */
     @Override
     public void closeOrderedList(StringBuilder out) {
 	out.append("</ol>\n");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#openUnorderedList(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#openUnorderedList(StringBuilder)
+     */
     @Override
     public void openUnorderedList(StringBuilder out) {
 	out.append("<ul>\n");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#closeUnorderedList(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#closeUnorderedList(StringBuilder)
+     */
     @Override
     public void closeUnorderedList(StringBuilder out) {
 	out.append("</ul>\n");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#openListItem(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#openListItem(StringBuilder)
+     */
     @Override
     public void openListItem(StringBuilder out) {
 	out.append("<li");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#closeListItem(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#closeListItem(StringBuilder)
+     */
     @Override
     public void closeListItem(StringBuilder out) {
 	out.append("</li>\n");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#horizontalRuler(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#horizontalRuler(StringBuilder)
+     */
     @Override
     public void horizontalRuler(StringBuilder out) {
 	out.append("<hr />\n");
     }
 
-    /** @see com.github.rjeschke.txtmark.Decorator#openLink(StringBuilder) */
+    /**
+     * @see com.github.rjeschke.txtmark.Decorator#openLink(StringBuilder)
+     */
     @Override
     public void openLink(StringBuilder out) {
 	out.append("<a");
     }
 
     @Override
-    public void openDocument(StringBuilder out, boolean enableDocument) {	
-    }
-
-    @Override
-    public void closeDocument(StringBuilder out, boolean enableDocument) {	
+    public void closeDocument(StringBuilder out) {
     }
 
     @Override
@@ -223,7 +267,7 @@ public class DefaultDecorator implements Decorator {
     @Override
     public void openImage(StringBuilder out, String src, String alt,
 	    String title) {
-	out.append("<img");	
+	out.append("<img");
 	out.append(" src=\"");
 	Utils.appendValue(out, src, 0, src.length());
 	out.append("\" alt=\"");

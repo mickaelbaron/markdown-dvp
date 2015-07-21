@@ -17,9 +17,6 @@ package com.github.rjeschke.txtmark;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Emitter class responsible for generating HTML output.
@@ -55,12 +52,8 @@ public class Emitter {
 	this.linkRefs.put(key.toLowerCase(), linkRef);
     }
 
-    public void startDocument(final StringBuilder out) {
-	this.config.decorator.openDocument(out, this.config.enableDocument);
-    }
-
     public void finishDocument(final StringBuilder out) {
-	this.config.decorator.closeDocument(out, this.config.enableDocument);
+	this.config.decorator.closeDocument(out);
     }
 
     /**
@@ -181,9 +174,6 @@ public class Emitter {
 	    break;
 	case FENCED_CODE:
 	    this.emitCodeLines(out, block.lines, block.meta, false);
-	    break;
-	case PLUGIN:
-	    this.emitPluginLines(out, block.lines, block.meta);
 	    break;
 	case XML:
 	    this.emitRawLines(out, block.lines);
@@ -704,7 +694,7 @@ public class Emitter {
 	    if (this.useExtensions) {
 		return Character.isLetterOrDigit(c0) && c0 != '_'
 			&& Character.isLetterOrDigit(c1) ? MarkToken.NONE
-			: MarkToken.EM_UNDERSCORE;
+				: MarkToken.EM_UNDERSCORE;
 	    }
 	    return c0 != ' ' || c1 != ' ' ? MarkToken.EM_UNDERSCORE
 		    : MarkToken.NONE;
@@ -924,56 +914,4 @@ public class Emitter {
 	    }
 	}
     }
-
-    /**
-     * interprets a plugin block into the StringBuilder.
-     * 
-     * @param out
-     *            The StringBuilder to write to.
-     * @param lines
-     *            The lines to write.
-     * @param meta
-     *            Meta information.
-     */
-    protected void emitPluginLines(final StringBuilder out, final Line lines,
-	    final String meta) {
-	Line line = lines;
-
-	String sparams = null;
-	Map<String, String> params = null;
-	int iow = meta.indexOf(' ');
-	if (iow != -1) {
-	    sparams = meta.substring(iow + 1);
-	    if (sparams != null) {
-		params = parsePluginParams(sparams);
-	    }
-	}
-
-	if (params == null) {
-	    params = new HashMap<String, String>();
-	}
-	final ArrayList<String> list = new ArrayList<String>();
-	while (line != null) {
-	    if (line.isEmpty)
-		list.add("");
-	    else
-		list.add(line.value);
-	    line = line.next;
-	}
-    }
-
-    protected Map<String, String> parsePluginParams(String s) {
-	Map<String, String> params = new HashMap<String, String>();
-	Pattern p = Pattern
-		.compile("(\\w+)=\"*((?<=\")[^\"]+(?=\")|([^\\s]+))\"*");
-
-	Matcher m = p.matcher(s);
-
-	while (m.find()) {
-	    params.put(m.group(1), m.group(2));
-	}
-
-	return params;
-    }
-
 }

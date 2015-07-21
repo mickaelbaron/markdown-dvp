@@ -1,57 +1,23 @@
-/*
-Copyright (c) 2005, Pete Bevin.
-<http://markdownj.petebevin.com>
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-
- * Redistributions of source code must retain the above copyright notice,
-  this list of conditions and the following disclaimer.
-
- * Redistributions in binary form must reproduce the above copyright
-  notice, this list of conditions and the following disclaimer in the
-  documentation and/or other materials provided with the distribution.
-
- * Neither the name "Markdown" nor the names of its contributors may
-  be used to endorse or promote products derived from this software
-  without specific prior written permission.
-
-This software is provided by the copyright holders and contributors "as
-is" and any express or implied warranties, including, but not limited
-to, the implied warranties of merchantability and fitness for a
-particular purpose are disclaimed. In no event shall the copyright owner
-or contributors be liable for any direct, indirect, incidental, special,
-exemplary, or consequential damages (including, but not limited to,
-procurement of substitute goods or services; loss of use, data, or
-profits; or business interruption) however caused and on any theory of
-liability, whether in contract, strict liability, or tort (including
-negligence or otherwise) arising in any way out of the use of this
-software, even if advised of the possibility of such damage.
-
- */
-
-package fr.mickaelbaron.markdowntodvp;
-
-import static org.junit.Assert.assertEquals;
+package fr.mickaelbaron.markdowntodvp.functional;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.junit.Test;
-
 import com.github.rjeschke.txtmark.Configuration;
-import com.github.rjeschke.txtmark.Processor;
 
+/**
+ * @author Mickael BARON
+ */
 public abstract class AbstractMarkupFileTester {
 
     protected TestResultPair pair;
@@ -64,10 +30,18 @@ public abstract class AbstractMarkupFileTester {
 	this.pair = pair;
     }
 
-    public static Collection<Object[]> testResultPairs(String[] fileNames) throws IOException {
+    public static Collection<Object[]> testResultFilePairs(String path, String[] fileNames)
+	    throws IOException, URISyntaxException {
 	final List<TestResultPair> fullResultPairList = new ArrayList<TestResultPair>();
-	for (final String filename : fileNames) {
-	    fullResultPairList.addAll(newTestResultPairList(filename));
+	
+	for (String string : fileNames) {
+	    String name = path + File.separator + string + ".text";
+	    java.net.URL url = AbstractMarkupFileTester.class.getResource(name);
+	    java.nio.file.Path resPath = java.nio.file.Paths.get(url.toURI());
+	    byte[] encoded = Files.readAllBytes(resPath);
+	    String content = new String(encoded, "UTF-8");
+	    
+	    fullResultPairList.add(new TestResultPair(string, resPath.toString(), content));
 	}
 
 	final Collection<Object[]> testResultPairs = new ArrayList<Object[]>();
@@ -77,6 +51,20 @@ public abstract class AbstractMarkupFileTester {
 	return testResultPairs;
     }
     
+    public static Collection<Object[]> testResultStringPairs(String path, String[] fileNames)
+	    throws IOException {
+	final List<TestResultPair> fullResultPairList = new ArrayList<TestResultPair>();
+	for (final String filename : fileNames) {
+	    fullResultPairList.addAll(newTestResultPairList(path + File.separator + filename));
+	}
+
+	final Collection<Object[]> testResultPairs = new ArrayList<Object[]>();
+	for (final TestResultPair p : fullResultPairList) {
+	    testResultPairs.add(new Object[] { p });
+	}
+	return testResultPairs;
+    }
+
     public static List<TestResultPair> newTestResultPairList(
 	    final String filename) throws IOException {
 	final List<TestResultPair> list = new ArrayList<TestResultPair>();
@@ -133,9 +121,9 @@ public abstract class AbstractMarkupFileTester {
 		    }
 		    final String resultNumber = mResult.group(1);
 		    if (!testNumber.equals(resultNumber)) {
-			throw new RuntimeException("Result " + resultNumber
-				+ " test " + testNumber + " (line "
-				+ lineNumber + ")");
+			throw new RuntimeException(
+				"Result " + resultNumber + " test " + testNumber
+					+ " (line " + lineNumber + ")");
 		    }
 
 		    curbuf = result;
@@ -184,11 +172,5 @@ public abstract class AbstractMarkupFileTester {
 	    lastPos--;
 	}
 	return s.substring(0, lastPos + 1);
-    }
-
-    @Test
-    public void runTest() {
-	String trim = Processor.process(pair.getTest(), build).trim();
-	assertEquals(pair.toString(), pair.getResult().trim(), trim);
     }
 }

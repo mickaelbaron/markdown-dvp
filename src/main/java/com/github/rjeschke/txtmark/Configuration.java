@@ -15,7 +15,6 @@
  */
 package com.github.rjeschke.txtmark;
 
-
 /**
  * Txtmark configuration.
  * 
@@ -23,7 +22,7 @@ package com.github.rjeschke.txtmark;
  * @since 0.7
  */
 public class Configuration {
-    
+
     final boolean safeMode;
 
     final String encoding;
@@ -36,8 +35,6 @@ public class Configuration {
 
     final boolean convertNewline2Br;
 
-    final boolean enableDocument;
-    
     final SpanEmitter specialLinkEmitter;
 
     /**
@@ -79,9 +76,8 @@ public class Configuration {
      */
     Configuration(final boolean safeMode, final String encoding,
 	    final Decorator decorator, final BlockEmitter codeBlockEmitter,
-	    final boolean forceExtendedProfile,
-	    final boolean convertNewline2Br,
-	    final SpanEmitter specialLinkEmitter, final boolean enableDocument) {
+	    final boolean forceExtendedProfile, final boolean convertNewline2Br,
+	    final SpanEmitter specialLinkEmitter) {
 	this.safeMode = safeMode;
 	this.encoding = encoding;
 	this.decorator = decorator;
@@ -89,7 +85,6 @@ public class Configuration {
 	this.convertNewline2Br = convertNewline2Br;
 	this.forceExtendedProfile = forceExtendedProfile;
 	this.specialLinkEmitter = specialLinkEmitter;
-	this.enableDocument = enableDocument;
     }
 
     /**
@@ -122,8 +117,6 @@ public class Configuration {
 
 	private SpanEmitter specialLinkEmitter = null;
 
-	private boolean enableDocument = false;
-	
 	/**
 	 * Constructor.
 	 * 
@@ -142,16 +135,6 @@ public class Configuration {
 	 */
 	public Builder enableSafeMode() {
 	    this.safeMode = true;
-	    return this;
-	}
-
-	public Builder enableDocument() {
-	    this.enableDocument = true;
-	    return this;
-	}
-	
-	public Builder disableDocument() {
-	    this.enableDocument = false;
 	    return this;
 	}
 	
@@ -261,7 +244,7 @@ public class Configuration {
 	    return new Configuration(this.safeMode, this.encoding,
 		    this.decorator, this.codeBlockEmitter,
 		    this.forceExtendedProfile, this.convertNewline2Br,
-		    this.specialLinkEmitter, this.enableDocument);
+		    this.specialLinkEmitter);
 	}
 
 	public Decorator getDecorator() {

@@ -36,13 +36,16 @@ class LinkRef {
      * @param title
      *            The title (may be <code>null</code>).
      */
-    public LinkRef(final String link, final String title, final boolean isAbbrev) {
+    public LinkRef(final String link, final String title,
+	    final boolean isAbbrev) {
 	this.link = link;
 	this.title = title;
 	this.isAbbrev = isAbbrev;
     }
 
-    /** @see java.lang.Object#toString() */
+    /**
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
 	return this.link + " \"" + this.title + "\"";

@@ -61,7 +61,8 @@ class Line {
 	} else {
 	    this.isEmpty = false;
 	    this.trailing = 0;
-	    while (this.value.charAt(this.value.length() - this.trailing - 1) == ' ')
+	    while (this.value
+		    .charAt(this.value.length() - this.trailing - 1) == ' ')
 		this.trailing++;
 	}
     }
@@ -240,8 +241,8 @@ class Line {
 		return false;
 	    temp.setLength(0);
 	    boolean useLt = in.charAt(pos) == '<';
-	    pos = useLt ? Utils.readUntil(temp, in, pos + 1, '>') : Utils
-		    .readMdLink(temp, in, pos);
+	    pos = useLt ? Utils.readUntil(temp, in, pos + 1, '>')
+		    : Utils.readMdLink(temp, in, pos);
 	    if (pos < start)
 		return false;
 	    if (useLt)
@@ -274,21 +275,21 @@ class Line {
 	} else {
 	    return false;
 	}
-	
-	pos++;	
+
+	pos++;
 	if (pos < in.length()) {
 	    return false;
 	}
-	
+
 	return isLink;
     }
-    
+
     public static void main(String[] args) {
 	String toto = "cc  ";
 	System.out.println(toto.length());
 	System.out.println(toto.trim().length());
     }
-    
+
     /**
      * Gets this line's type.
      * 
@@ -311,30 +312,27 @@ class Line {
 
 	if (this.value.charAt(this.leading) == '!') {
 	    if (checkImage(this.value, 0)) {
-		return LineType.IMAGE;		
+		return LineType.IMAGE;
 	    }
 	}
-	
+
 	if (extendedMode) {
 	    if (this.value.length() - this.leading - this.trailing > 2
 		    && (this.value.charAt(this.leading) == '`'
-			    || this.value.charAt(this.leading) == '~' || this.value
-			    .charAt(this.leading) == '%')) {
+			    || this.value.charAt(this.leading) == '~'
+			    || this.value.charAt(this.leading) == '%')) {
 		if (this.countCharsStart('`') >= 3)
 		    return LineType.FENCED_CODE;
 
 		if (this.countCharsStart('~') >= 3)
 		    return LineType.FENCED_CODE;
-
-		if (this.countCharsStart('%') >= 3)
-		    return LineType.PLUGIN;
 	    }
 	}
 
 	if (this.value.length() - this.leading - this.trailing > 2
 		&& (this.value.charAt(this.leading) == '*'
-			|| this.value.charAt(this.leading) == '-' || this.value
-			.charAt(this.leading) == '_')) {
+			|| this.value.charAt(this.leading) == '-'
+			|| this.value.charAt(this.leading) == '_')) {
 	    if (this.countChars(this.value.charAt(this.leading)) >= 3)
 		return LineType.HR;
 	}
@@ -423,8 +421,8 @@ class Line {
      */
     // FIXME ... hack
     public String stripID() {
-	if (this.isEmpty
-		|| this.value.charAt(this.value.length() - this.trailing - 1) != '}')
+	if (this.isEmpty || this.value
+		.charAt(this.value.length() - this.trailing - 1) != '}')
 	    return null;
 	int p = this.leading;
 	boolean found = false;
@@ -450,7 +448,8 @@ class Line {
 	}
 
 	if (found) {
-	    if (p + 1 < this.value.length() && this.value.charAt(p + 1) == '#') {
+	    if (p + 1 < this.value.length()
+		    && this.value.charAt(p + 1) == '#') {
 		final int start = p + 2;
 		p = start;
 		found = false;
@@ -481,8 +480,8 @@ class Line {
 				+ this.value.substring(this.leading, start - 2)
 					.trim();
 		    } else {
-			this.value = this.value.substring(this.leading,
-				start - 2).trim();
+			this.value = this.value
+				.substring(this.leading, start - 2).trim();
 		    }
 		    this.trailing = 0;
 		    return id.length() > 0 ? id : null;

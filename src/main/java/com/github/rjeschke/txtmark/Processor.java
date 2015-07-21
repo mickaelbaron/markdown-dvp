@@ -79,9 +79,8 @@ public class Processor {
      */
     public final static String process(final Reader reader,
 	    final Configuration configuration) throws IOException {
-	final Processor p = new Processor(
-		!(reader instanceof BufferedReader) ? new BufferedReader(reader)
-			: reader, configuration);
+	final Processor p = new Processor(!(reader instanceof BufferedReader)
+		? new BufferedReader(reader) : reader, configuration);
 	return p.process();
     }
 
@@ -144,8 +143,9 @@ public class Processor {
      */
     public final static String process(final InputStream input,
 	    final Configuration configuration) throws IOException {
-	final Processor p = new Processor(new BufferedReader(
-		new InputStreamReader(input, configuration.encoding)),
+	final Processor p = new Processor(
+		new BufferedReader(
+			new InputStreamReader(input, configuration.encoding)),
 		configuration);
 	return p.process();
     }
@@ -174,8 +174,8 @@ public class Processor {
      */
     public final static String process(final String input,
 	    final boolean safeMode) {
-	return process(input, Configuration.builder().setSafeMode(safeMode)
-		.build());
+	return process(input,
+		Configuration.builder().setSafeMode(safeMode).build());
     }
 
     /**
@@ -190,8 +190,8 @@ public class Processor {
      */
     public final static String process(final String input,
 	    final Decorator decorator) {
-	return process(input, Configuration.builder().setDecorator(decorator)
-		.build());
+	return process(input,
+		Configuration.builder().setDecorator(decorator).build());
     }
 
     /**
@@ -240,8 +240,8 @@ public class Processor {
      */
     public final static String process(final File file, final boolean safeMode)
 	    throws IOException {
-	return process(file, Configuration.builder().setSafeMode(safeMode)
-		.build());
+	return process(file,
+		Configuration.builder().setSafeMode(safeMode).build());
     }
 
     /**
@@ -258,8 +258,8 @@ public class Processor {
      */
     public final static String process(final File file,
 	    final Decorator decorator) throws IOException {
-	return process(file, Configuration.builder().setDecorator(decorator)
-		.build());
+	return process(file,
+		Configuration.builder().setDecorator(decorator).build());
     }
 
     /**
@@ -278,7 +278,7 @@ public class Processor {
      */
     public final static String process(final File file,
 	    final Decorator decorator, final boolean safeMode)
-	    throws IOException {
+		    throws IOException {
 	return process(file, Configuration.builder().setDecorator(decorator)
 		.setSafeMode(safeMode).build());
     }
@@ -297,8 +297,8 @@ public class Processor {
      */
     public final static String process(final File file, final String encoding)
 	    throws IOException {
-	return process(file, Configuration.builder().setEncoding(encoding)
-		.build());
+	return process(file,
+		Configuration.builder().setEncoding(encoding).build());
     }
 
     /**
@@ -359,7 +359,7 @@ public class Processor {
      */
     public final static String process(final File file, final String encoding,
 	    final Decorator decorator, final boolean safeMode)
-	    throws IOException {
+		    throws IOException {
 	return process(file, Configuration.builder().setEncoding(encoding)
 		.setSafeMode(safeMode).setDecorator(decorator).build());
     }
@@ -393,8 +393,8 @@ public class Processor {
      */
     public final static String process(final InputStream input,
 	    final boolean safeMode) throws IOException {
-	return process(input, Configuration.builder().setSafeMode(safeMode)
-		.build());
+	return process(input,
+		Configuration.builder().setSafeMode(safeMode).build());
     }
 
     /**
@@ -411,8 +411,8 @@ public class Processor {
      */
     public final static String process(final InputStream input,
 	    final Decorator decorator) throws IOException {
-	return process(input, Configuration.builder().setDecorator(decorator)
-		.build());
+	return process(input,
+		Configuration.builder().setDecorator(decorator).build());
     }
 
     /**
@@ -431,7 +431,7 @@ public class Processor {
      */
     public final static String process(final InputStream input,
 	    final Decorator decorator, final boolean safeMode)
-	    throws IOException {
+		    throws IOException {
 	return process(input, Configuration.builder().setDecorator(decorator)
 		.setSafeMode(safeMode).build());
     }
@@ -450,8 +450,8 @@ public class Processor {
      */
     public final static String process(final InputStream input,
 	    final String encoding) throws IOException {
-	return process(input, Configuration.builder().setEncoding(encoding)
-		.build());
+	return process(input,
+		Configuration.builder().setEncoding(encoding).build());
     }
 
     /**
@@ -490,7 +490,7 @@ public class Processor {
      */
     public final static String process(final InputStream input,
 	    final String encoding, final Decorator decorator)
-	    throws IOException {
+		    throws IOException {
 	return process(input, Configuration.builder().setEncoding(encoding)
 		.setDecorator(decorator).build());
     }
@@ -546,8 +546,8 @@ public class Processor {
      */
     public final static String process(final Reader reader,
 	    final boolean safeMode) throws IOException {
-	return process(reader, Configuration.builder().setSafeMode(safeMode)
-		.build());
+	return process(reader,
+		Configuration.builder().setSafeMode(safeMode).build());
     }
 
     /**
@@ -564,8 +564,8 @@ public class Processor {
      */
     public final static String process(final Reader reader,
 	    final Decorator decorator) throws IOException {
-	return process(reader, Configuration.builder().setDecorator(decorator)
-		.build());
+	return process(reader,
+		Configuration.builder().setDecorator(decorator).build());
     }
 
     /**
@@ -584,7 +584,7 @@ public class Processor {
      */
     public final static String process(final Reader reader,
 	    final Decorator decorator, final boolean safeMode)
-	    throws IOException {
+		    throws IOException {
 	return process(reader, Configuration.builder().setDecorator(decorator)
 		.setSafeMode(safeMode).build());
     }
@@ -679,8 +679,8 @@ public class Processor {
 				// Read comment
 				if (ch == '\"' || ch == '\'' || ch == '(') {
 				    line.pos++;
-				    comment = line.readUntil(ch == '(' ? ')'
-					    : ch);
+				    comment = line
+					    .readUntil(ch == '(' ? ')' : ch);
 				    // Valid linkRef only if comment is valid
 				    if (comment != null) {
 					isLinkRef = true;
@@ -702,11 +702,9 @@ public class Processor {
 		    lastLinkRef = null;
 		} else {
 		    // Store linkRef and skip line
-		    final LinkRef lr = new LinkRef(
-			    link,
-			    comment,
-			    comment != null
-				    && (link.length() == 1 && link.charAt(0) == '*'));
+		    final LinkRef lr = new LinkRef(link, comment,
+			    comment != null && (link.length() == 1
+				    && link.charAt(0) == '*'));
 		    this.emitter.addLinkRef(id, lr);
 		    if (comment == null) {
 			lastLinkRef = lr;
@@ -752,7 +750,9 @@ public class Processor {
 	while (line != null) {
 	    final LineType t = line.getLineType(this.useExtensions);
 	    if ((t == LineType.OLIST || t == LineType.ULIST)
-		    || (!line.isEmpty && (line.prevEmpty && line.leading == 0 && !(t == LineType.OLIST || t == LineType.ULIST)))) {
+		    || (!line.isEmpty && (line.prevEmpty && line.leading == 0
+			    && !(t == LineType.OLIST
+				    || t == LineType.ULIST)))) {
 		root.split(line.previous).type = BlockType.LIST_ITEM;
 	    }
 	    line = line.next;
@@ -774,9 +774,8 @@ public class Processor {
 
 	if (listMode) {
 	    root.removeListIndent(this.useExtensions);
-	    if (this.useExtensions
-		    && root.lines != null
-		    && root.lines.getLineType(this.useExtensions) != LineType.CODE) {
+	    if (this.useExtensions && root.lines != null && root.lines
+		    .getLineType(this.useExtensions) != LineType.CODE) {
 		root.id = root.lines.stripID();
 	    }
 	}
@@ -800,7 +799,7 @@ public class Processor {
 			break;
 		    }
 		    if (this.useExtensions
-			    && (t == LineType.CODE || t == LineType.FENCED_CODE || t == LineType.PLUGIN)) {
+			    && (t == LineType.CODE || t == LineType.FENCED_CODE)) {
 			break;
 		    }
 		    if (t == LineType.HEADLINE || t == LineType.HEADLINE1
@@ -817,8 +816,9 @@ public class Processor {
 		    root.split(line.previous).type = bt;
 		    root.removeLeadingEmptyLines();
 		} else {
-		    bt = (listMode && (line == null || !line.isEmpty) && !wasEmpty) ? BlockType.NONE
-			    : BlockType.PARAGRAPH;
+		    bt = (listMode && (line == null || !line.isEmpty)
+			    && !wasEmpty) ? BlockType.NONE
+				    : BlockType.PARAGRAPH;
 		    root.split(line == null ? root.lineTail : line).type = bt;
 		    root.removeLeadingEmptyLines();
 		}
@@ -836,9 +836,9 @@ public class Processor {
 	    }
 	    case BQUOTE:
 		while (line != null) {
-		    if (!line.isEmpty
-			    && (line.prevEmpty && line.leading == 0 && line
-				    .getLineType(this.useExtensions) != LineType.BQUOTE)) {
+		    if (!line.isEmpty && (line.prevEmpty && line.leading == 0
+			    && line.getLineType(
+				    this.useExtensions) != LineType.BQUOTE)) {
 			break;
 		    }
 		    line = line.next;
@@ -879,7 +879,8 @@ public class Processor {
 	    case FENCED_CODE:
 		line = line.next;
 		while (line != null) {
-		    if (line.getLineType(this.useExtensions) == LineType.FENCED_CODE) {
+		    if (line.getLineType(
+			    this.useExtensions) == LineType.FENCED_CODE) {
 			break;
 		    }
 		    // TODO ... is this really necessary? Maybe add a special
@@ -894,30 +895,8 @@ public class Processor {
 		block.type = BlockType.FENCED_CODE;
 		block.meta = Utils.getMetaFromFence(block.lines.value);
 		block.lines.setEmpty();
-		if (block.lineTail.getLineType(this.useExtensions) == LineType.FENCED_CODE) {
-		    block.lineTail.setEmpty();
-		}
-		block.removeSurroundingEmptyLines();
-		break;
-	    case PLUGIN:
-		line = line.next;
-		while (line != null) {
-		    if (line.getLineType(this.useExtensions) == LineType.PLUGIN) {
-			break;
-		    }
-		    // TODO ... is this really necessary? Maybe add a special
-		    // flag?
-		    line = line.next;
-		}
-		if (line != null) {
-		    line = line.next;
-		}
-		block = root
-			.split(line != null ? line.previous : root.lineTail);
-		block.type = BlockType.PLUGIN;
-		block.meta = Utils.getMetaFromFence(block.lines.value);
-		block.lines.setEmpty();
-		if (block.lineTail.getLineType(this.useExtensions) == LineType.PLUGIN) {
+		if (block.lineTail.getLineType(
+			this.useExtensions) == LineType.FENCED_CODE) {
 		    block.lineTail.setEmpty();
 		}
 		block.removeSurroundingEmptyLines();
@@ -947,8 +926,8 @@ public class Processor {
 	    case ULIST:
 		while (line != null) {
 		    final LineType t = line.getLineType(this.useExtensions);
-		    if (!line.isEmpty
-			    && (line.prevEmpty && line.leading == 0 && !(t == LineType.OLIST || t == LineType.ULIST))) {
+		    if (!line.isEmpty && (line.prevEmpty && line.leading == 0
+			    && !(t == LineType.OLIST || t == LineType.ULIST))) {
 			break;
 		    }
 		    line = line.next;
@@ -989,7 +968,6 @@ public class Processor {
 
 	this.recurse(parent, false);
 	Block block = parent.blocks;
-	this.emitter.startDocument(out);
 
 	while (block != null) {
 	    this.emitter.emit(out, block);

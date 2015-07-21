@@ -172,8 +172,8 @@ public class Utils {
      *            Starting position.
      * @return The new position or -1 if this is no valid markdown link.
      */
-    public final static int readMdLink(final StringBuilder out,
-	    final String in, final int start) {
+    public final static int readMdLink(final StringBuilder out, final String in,
+	    final int start) {
 	int pos = start;
 	int counter = 1;
 	while (pos < in.length()) {
@@ -484,7 +484,8 @@ public class Utils {
      * @param in
      *            Input String.
      */
-    public final static void getXMLTag(final StringBuilder out, final String in) {
+    public final static void getXMLTag(final StringBuilder out,
+	    final String in) {
 	int pos = 1;
 	if (in.charAt(1) == '/')
 	    pos++;
@@ -600,7 +601,8 @@ public class Utils {
     public final static String getMetaFromFence(String fenceLine) {
 	for (int i = 0; i < fenceLine.length(); i++) {
 	    final char c = fenceLine.charAt(i);
-	    if (!Character.isWhitespace(c) && c != '`' && c != '~' && c != '%') {
+	    if (!Character.isWhitespace(c) && c != '`' && c != '~'
+		    && c != '%') {
 		return fenceLine.substring(i).trim();
 	    }
 	}
