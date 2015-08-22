@@ -21,7 +21,8 @@ import fr.mickaelbaron.markdowntodvp.M2DVPRun;
 public class MarkupFileTesterWithDocument extends AbstractMarkupFileTester {
 
     protected static String[] testFilenames = new String[] { 
-	    "Markdown Documentation - Syntax"};
+	    "daringfireball-markdowndocumentation-sample",
+	    "markitdown-sample"};
 
     @Parameters
     public static Collection<Object[]> testResultPairs() throws IOException, URISyntaxException {
