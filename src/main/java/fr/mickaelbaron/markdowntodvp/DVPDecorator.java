@@ -22,8 +22,6 @@ public class DVPDecorator extends DefaultDecorator {
 
     protected int currentEmbeddedList = 0;
 
-
-
     @Override
     public void openParagraph(StringBuilder out) {
 	out.append("<paragraph>");
@@ -94,7 +92,7 @@ public class DVPDecorator extends DefaultDecorator {
 	sectionState[level - 1] = true;
     }
 
-    private String displayLevel(int level, int sectionNumber) {
+    protected String displayLevel(int level, int sectionNumber) {
 	char currentChar = this.pattern[level];
 
 	switch (currentChar) {
@@ -109,7 +107,7 @@ public class DVPDecorator extends DefaultDecorator {
 	}
     }
 
-    private String displayHeadline(int level) {
+    protected String displayHeadline(int level) {
 	StringBuffer value = new StringBuffer();
 	for (int i = 0; i <= (level - 1); i++) {
 	    value.append(displayLevel(i, sectionIndex[i]));
