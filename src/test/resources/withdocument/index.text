@@ -1,0 +1,528 @@
+Introduction à Neo4j
+====================
+
+![Logo Neo4j](assets/neo4j-logo.png)
+
+Cet article est le premier d’une série sur la base de données graphe
+Neo4j. Il se veut introductif pour vous permettra de comprendre les
+concepts des bases de données graphe et de Neo4j, et d’avoir une
+première en main de
+
+Voici la liste des articles consacrés à Neo4j (liste de proposition non
+figée) :
+
+-   Partie 1: Concept, installation, première prise en main
+
+-   Partie 2: La modélisation & import des données
+
+-   Partie 3: Les connecteurs et extensions
+
+-   Partie 4: Clustering, tuning et administration
+
+Introduction
+------------
+
+Dans cette section nous allons parler de l’avènement des bases de
+données graphes en expliquant pourquoi les bases pré-existantes ne
+peuvent répondre aux problématiques des données fortement connectées.
+
+### Les données sont de plus en plus connectées
+
+Nous n’avons jamais créé et stocké autant de données qu’à l’heure
+actuelle. Dès que nous naviguons sur internet nous produisons des
+données, via les tracker pour les statistiques, les réseaux sociaux, nos
+achats en ligne, nos emails …​
+
+Hier grâce aux ordinateurs, aujourd’hui via nos smartphones et demain
+avec l’internet des objets, le volume de données ne va faire
+qu’augmenter. Bref, nous sommes en plein dans le BigData.
+
+Mais que ce passerait-il si nous arrivions à mettre en relation toutes
+ces données ? Simplement cela donne facebook, google linkedin ou ebay.
+
+Ces grands acteurs du web ont bien compris que connecter/lier les
+données permet d’accroître considérablement leur valeur. Ainsi nous ne
+sommes plus uniquement dans le Bigdata mais également dans l’ère du
+LinkedData : les données deviennent de plus en plus complexes et
+connectées.
+
+Il vient alors une question : comment modéliser, stocker et requêter ces
+relations entre les données ?
+
+### Les bases de données relationnelles
+
+Dès qu’on doit stocker des données, on pense aux bases de données
+relationnelles. Mais sont elles faites pour stocker des données
+connectées ?
+
+Lorsqu’on veut créer une relation entre deux objets, il est fréquent de
+devoir créer une table n-tiers permettant de les lier.
+
+![Mise en relation de deux objets en SQL](assets/rdbms.png)
+
+Ceci implique que nous devons modifier le schéma de la base pour chaque
+nouvelle relation qu’on veut créer. Dans notre contexte, cette non
+flexibilité allonge les temps de développement.
+
+De plus, en SQL, la description d’une relation se traduit par l’ajout
+d’un "JOIN". Or avec des données connectées, on obtient rapidement des
+requêtes avec beaucoup JOIN, ce qui les rend complexes et donc
+difficilement maintenables.
+
+De surcroît, plus on a de données dans une table et moins bonne sont les
+performances. Pour calculer le résultat, les moteurs SQL font
+(quasiment) le produit cartésien de chacune des tables.
+
+Dans notre contexte, les bases relationnelles sont inappropriées,
+surtout si on veut faire du temps réel :
+
+-   Schéma non flexible
+
+-   Mauvaise performance
+
+-   Code complexe & difficilement maintenable
+
+### NoSQL
+
+Il existe trois familles de NoSQL :
+
+-   Document : MongoDB, CouchBase
+
+-   Colonne : HBase, Cassandra
+
+-   Clef-valeur : Redis, Riak
+
+Toutefois aucune de ces familles ne convient puisqu’il n’existe aucun
+moyen de modéliser, stocker ou requêter les relations. La seule manière
+de lier des objets est de créer des relations implicites et de réaliser
+nos "jointures" dans le code de nos applications
+
+![Mise en relation d'objet en NoSQL](assets/nosql.png)
+
+De surcroît, ces bases ne sont pas transactionnelles (cf. ACID). En
+somme, elles ne sont pas faites pour y stocker des données connectées.
+
+### Les bases de données Graphes 
+
+Les bases de données de graphes vous permettent de modéliser, stocker et
+requêter en temps-réel vos données connectées. Ici on ne parle plus de
+table ou de document mais de noeud et de relation. Le principe est
+simple : ce que vous modélisez sur un tableau blanc **est** votre modèle
+physique !
+
+![whiteboard](assets/whiteboard.png)
+
+Quand utiliser une base graphes ?
+---------------------------------
+
+Les bases de graphes ne sont pas la réponse à tout, il faut utiliser le
+bon outil pour le bon besoin. Voici une liste de question à vous poser
+avant de partir sur une base graphe :
+
+-   Vos données sont-elles dynamiques ?
+
+-   Vos données sont-elles connectées ?
+
+-   Vous avez besoin d’un schéma flexible ?
+
+-   Vous devez faire du temps réel ?
+
+Si vous répondez oui à au moins deux questions c’est que vous avez
+probablement besoin d’une base graphe.
+
+Les cas d’utilisations les plus courants sont :
+
+-   la recommandation
+
+-   la détection de fraude
+
+-   le Master Data Management
+
+-   l’analyse de réseaux
+
+-   l’analyse d’impacts
+
+-   la gestion des profils et des droits d’accès
+
+Présentation Neo4j
+------------------
+
+### Introduction
+
+Neo4j est une base de données orienté graphe, libre (sous licence GPLv3)
+et écrite en java. Développé par Neo Technology (une société
+Suédo-Américaine), les premières lignes de codes datent de l’année 2000
+et la version 1.0 est sortie en 2010.
+
+Ceci en fait l’une des premières bases de données graphe, mais aussi
+l’une des évolués et robustes.
+
+Ses principales caractéristiques sont les suivantes :
+
+-   **Transaction** : c’est une base de données transactionnelle
+    respectueuse des principes ACID
+
+-   **Haute disponibilité** : via la mise en place d’un cluster
+
+-   **Volumétrie** : stocker et requêter des milliards de noeud et de
+    relations
+
+-   **Cypher** : un langage de requête graphe déclaratif, simple et
+    efficace
+
+-   **Schemaless**
+
+### Les concepts de Neo4j
+
+Les bases de données graphe tournent autour de trois concepts : les
+noeuds, les relations et leurs propriétés. Quoi de mieux qu’un graphe
+pour expliquer ces concepts !
+
+![diag 
+9eb8331cbf1d8be2cba63333b7e047d4](diag-9eb8331cbf1d8be2cba63333b7e047d4.png)
+
+### Les noeuds
+
+L’unité fondamentale qui forme un graphe sont les noeuds. Ce sont des
+enregistrements composés de propriétés de type clef/valeur, sans schéma
+pré-établi. Généralement ils représentent une entité du modèle.
+
+Pour différencier les noeuds, Neo4j apporte la notion de **label**.
+Ceux-ci permettent de donner un rôle / un type à un noeud (un noeud peut
+avoir plusieurs labels).
+
+![diag
+c604b0fabaeb8e8d7c713a14e35a9392](diag-c604b0fabaeb8e8d7c713a14e35a9392.png)
+
+Ainsi, ceci nous permet de créer des noeuds de ce genre :
+
+![diag
+60ecc781be349b63a62037abe8e00092](diag-60ecc781be349b63a62037abe8e00092.png)
+
+#### Les relations
+
+Les relations entre les noeuds sont la clef de voûte des graphes, c’est
+ce qui permet de lier des données et de créer des structures comme des
+listes, des arbres, des maps…​
+
+Neo4j les définit comme étant constituées d’un noeud de départ,
+d’arrivée (donc une relation avec un sens) et d’un type. De plus, tout
+comme les noeuds, elles sont également un enregistrement, et donc
+peuvent avoir des propriétés de type clef/valeur.
+
+![diag
+1c012cd38c8cd7ad6199422fcc991407](diag-1c012cd38c8cd7ad6199422fcc991407.png)
+
+Si on reprend notre précédant exemple, voici ce qu’on peut réaliser :
+
+![diag
+d0ee5fef9a6eed93a55a498926c969e9](diag-d0ee5fef9a6eed93a55a498926c969e9.png)
+
+#### Les propriétés
+
+Dans les sections précédentes, nous avons vu que les noeuds et les
+relations peuvent avoir des propriétés. Leurs types possibles
+correspondent au type primitif de java, ou à un tableau de type
+primitif.
+
+![diag
+5816dd9b005aa069ec74c30aef34bda4](diag-5816dd9b005aa069ec74c30aef34bda4.png)
+
+Cypher
+------
+
+Cypher est un langage déclaratif permettant de requêter et mettre à jour
+le graphe. Inspiré du SQL, on y retrouve beaucoup de concepts familiers,
+comme les clauses WHERE, ORDER BY, SKYP, LIMIT…​
+
+Son objectif est de permettre à l’utilisateur de définir des motifs, qui
+seront par la suite recherché dans tout le graphe. Ainsi, si je veux les
+amis de mes amis, il faut décrire le motif suivant :
+
+![diag
+93405818cf4df2efab8c8e2c00e51c8b](diag-93405818cf4df2efab8c8e2c00e51c8b.png)
+
+Mais comment faire pour décrire ce genre de motif dans un langage
+textuel ? Tout simplement en faisant de L’ASCII art :
+
+~~~~ {.highlight}
+(moi) -[:AMI]-> (mesAmis) -[:AMI]-> (amisDeMesAmis)
+~~~~
+
+### Les noeuds
+
+Les noeuds sont représentés avec des parenthèses, ce qui ressemble à des
+cercles : `()`
+
+Si vous avez besoin d’identifier le noeud dans votre requête (dans une
+clause WHERE par exemple), il suffit de lui donner un nom : `(monNoeud)`
+
+Pour spécifier un label, il suffit de l’ajouter comme ceci :
+`(monNoeud:monLabel)`
+
+Voici quelques exemples :
+
+-   `()` : n’importe quel noeud
+
+-   `(:Personne)` : un noeud avec le label *Personne*
+
+-   `(n:Personne)` : un noeud identifié dans la variable *n* avec le
+    label *Personne*
+
+-   `(n:Personne:Acteur)` : un noeud identifié dans la variable *n* avec
+    le label *Personne* et *Acteur*
+
+### Les relations 
+
+Les relations sont représentées par deux tirets avec un '\>', ce qui
+ressemble à une flèche : `-->`
+
+Si vous avez besoin d’identifier la relation dans votre requête, vous
+pouvez lui donner un nom comme ceci : `-[maRelation]->`
+
+Pour spécifier le type de la relation, il suffit de l’ajouter comme ceci
+: `-[maRelation:MON_TYPE]->`
+
+Voici quelques exemples :
+
+-   `(a)--(b)` : n’importe quelle relation entre le noeud *a* et *b*
+    (peut importe la direction)
+
+-   `(a)-[:AMI]->(b)` : relation de type *AMI* depuis le noeud *a* vers
+    le noeud *b*
+
+-   `(a)-[r:AMI|CONNAIT]->(b)` : relation identifiée dans la variable
+    *r* de type *AMI* ou *CONNAIT* depuis le noeud *a* vers le noeud *b*
+
+Maintenant que vous savez décrire vos motifs, nous allons voir comment
+réaliser vos requêtes avec le TP de la section suivante.
+
+Prise en main
+-------------
+
+### Installation
+
+#### Pré-requis
+
+Si vous utilisez un autre OS que Windows, veuillez vous assurer que vous
+disposez d’une machine virtuelle Java en version 7 ou supérieure.
+
+De plus vous devez aussi avoir configurer les variables d’environnement
+suivantes:
+
+-   **JAVA\_HOME** : pointant vers le répertorie de votre JDK
+
+-   **PATH** : contient le répertoire BIN de votre JDK
+
+#### Téléchargement
+
+Vous pouvez télécharger la dernière version de Neo4j à l’adresse
+suivante : [http://neo4j.com/download/](http://neo4j.com/download/)
+
+Sur cette page vous y trouverez la version entreprise et la
+communautaire pour votre OS (Linux, Mac ou Windows).
+
+Pour les besoins de ce tutoriel démo, nous prendrons la version
+communautaire.
+
+#### Installation
+
+Si vous êtes sur Windows ou Mac, une fois le téléchargement terminé, il
+vous suffit d’exécuter le fichier. Ceci lancera l’utilitaire
+d’installation qui vous guidera pas à pas.
+
+Quant aux utilisateurs de Linux, il suffit de décompresser l’archive
+télécharger dans le répertoire de votre choix.
+
+A présent, votre serveur est installé et prêt à être utilisé !
+
+### Le navigateur
+
+Une fois votre serveur démarrer, vous pouvez prendre votre navigateur
+préféré et vous rendre à L’URL suivante :
+<http://localhost:7474/browser>
+
+Neo4j est livré avec un client web, vous permettant de requêter et
+naviguer dans votre graphe. C’est l’outil du quotidien des développeurs.
+
+On y trouve :
+
+-   En rouge : l’espace de saisie de la requête
+
+-   En vert : l’espace d’affichage du résultat de la requête qu’on peu
+    afficher sous forme de graphe ou de tableau (cf. zone bleue)
+
+![browser](assets/browser.png)
+
+### Travaux pratiques
+
+L’objectif de cet exercice est de vous permettre de manipuler le langage
+Cypher.
+
+### Création d’un noeud : vous
+
+-   Tout d’abord, vous allez créer un noeud grâce à la clause **CREATE**
+    :
+
+~~~~ {.highlight}
+CREATE (vous:Personne { nom:"Vous" })
+RETURN vous
+~~~~
+
+Vous pouvez ajouter d’autres attributs à votre noeud comme ceci \`CREATE
+(vous:Personne { nom:"Benoit", twitter:'logisima', …​ })
+
+-   Vous aimez Neo4j non ? Alors créer un noeud "Neo4j" et y positionner
+    une relation de type "AIME avec votre noeud.
+
+~~~~ {.highlight}
+MATCH  (vous:Personne { nom:"Vous"})
+CREATE (vous)-[aime:AIME]->(neo:Database:NoSql:Graph {nom:"Neo4j" })
+RETURN vous,aime,neo
+~~~~
+
+**(vous:Personne { nom: "benoit" })** permet de récupérer un noeud avec
+le label *Personne* et ayant *benoit* comme valeur pour la propriété
+nom\_.
+
+### Créer vos amis
+
+A présent, nous allons ajouter vos amis dans le graphe :
+
+~~~~ {.highlight}
+MATCH (vous:Personne { nom:"Vous" })
+FOREACH (nom in ["Thibaut","Anne","Fabien","Charlotte","Elise"] |
+  CREATE (vous)-[:AMI]->(:Personne { nom: nom })
+)
+~~~~
+
+**Foreach** permet d’exécuter une opération pour chaque élément de la
+liste.
+
+### Retrouvez vos amis
+
+~~~~ {.highlight}
+MATCH (vous { nom:"Vous" })-[:ami]->(vosAmis)
+RETURN vous, vosAmis
+~~~~
+
+### Créer les amis de vos amis avec leurs compétences
+
+-   De Thibaut :
+
+~~~~ {.highlight}
+MATCH
+    (neo:Database { nom:"Neo4j" }),
+    (thibaut:Personne { nom:"Thibaut" })
+CREATE (thibaut)-[:AMI]->(:Personne:Expert { nom:"Linda" })-[:COMPETENCE]->(neo)
+~~~~
+
+-   Puis d’Anne :
+
+~~~~ {.highlight}
+MATCH (neo:Database { nom:"Neo4j" })
+MATCH (anne:Person { nom:"Johan" })
+CREATE (anne)-[:AMI]->(:Personne:Expert { nom:"Maxime"})-[:COMPETENCE]->(neo)
+~~~~
+
+### Trouver qui peut vous aider à apprendre Neo4j parmi vos connaissances
+
+~~~~ {.highlight}
+MATCH
+    (vous:Personne { nom: "Vous" }),
+    (expert:Personne)-[:COMPETENCE]->(db:Database { nom: "Neo4j" }),
+    p = shortestPath( (vous)-[:AMI*..5]-(expert) )
+RETURN p,db
+~~~~
+
+**(vous)-[:AMI\*..5]-(expert)** permet de décrire un chemin dans le
+graphe, ici un chemin entre vous et un expert qui est une connaissance
+de niveau 5 au maximum. En ajoutant y la fonction **shortestpath**, on
+cherche uniquement le chemin le plus court.
+
+### Pour aller plus loin
+
+Si vous voulez tout savoir sur Cypher, il existe une fiche qui référence
+toutes ces fonctionnalités :
+[http://neo4j.com/docs/stable/cypher-refcard/](http://neo4j.com/docs/stable/cypher-refcard/)
+
+Vous pouvez également regarder les exemples qui sont livrés avec Neo4j.
+Ceux-ci sont disponibles directement dans le browser comme le montre
+l’image ci-dessous. Une fois que vous avez cliquer sur l’un d’entre eux,
+il ne vous reste plus qu’à suivre les instructions affichées dans
+l’encadré.
+
+![Les examples embarqués dans Neo4j](assets/examples.png)
+
+L’écosystème
+------------
+
+Neo4j dispose d’un grand écosystème ainsi qu’une communauté fortement
+active.
+
+### La console neo4j : [http://console.neo4j.org](http://console.neo4j.org)
+
+Si vous connaissez les outils tel que [JSfiddle](http://jsfiddle.net/),
+[plunker](http://plnkr.co/) ou [codePen](http://codepen.io) pour le
+développement web, et bien la console Neo4j fait la même chose, mais
+pour Neo4j.
+
+Cet outil vous permet de créer en ligne une base Neo4j, de la requêter,
+mais surtout de la partager. C’est idéal pour commencer à s’amuser avec
+Neo4j puisque cela ne nécessite aucune installation.
+
+C’est également pratique pour partager avec la communauté son modèle de
+données lorsqu’on a un problème de modélisation ou de requête.
+
+![Console Neo4j](assets/console.neo4j.png)
+
+### Graphe gist : [http://graphgist.neo4j.com](http://graphgist.neo4j.com)
+
+Graphe gist vous permet de réaliser une documentation "vivante" de votre
+projet. Au lieu d’avoir des extraits de code figés, ici vos requêtes
+cypher sont exécutés dans une console Neo4j, ce qui rend vos exemples
+dynamiques.
+
+Cet outil est beaucoup utilisé pour rédiger des cas d’utilisations : on
+y définit une problématique et on y démontre comment Neo4j peut répondre
+via une série de requêtes Cypher.
+
+Ainsi je suis certain que vous trouverez sur cette page
+[http://graphgist.neo4j.com/\#!/gists/all](http://graphgist.neo4j.com/#!/gists/all),
+un gist se rapprochant de votre cas d’utilisation.
+
+### Liste des drivers
+
+Peu importe votre langage de programmation préféré, vous allez y trouver
+un driver fait pour vous :
+[http://neo4j.com/developer/language-guides/](http://neo4j.com/developer/language-guides/)
+
+### Où trouver de l’aide ?
+
+N’oubliez pas, vous n’êtes pas seul, la communauté peut vous aider.
+
+Voici la liste des endroits où vous pouvez trouver de l’aide :
+
+-   Le google groupe de la communauté française :
+    [https://groups.google.com/forum/\#!forum/neo4jfr](https://groups.google.com/forum/#!forum/neo4jfr)
+
+-   Le google groupe de la communauté internationale :
+    [https://groups.google.com/forum/\#!forum/neo4j](https://groups.google.com/forum/#!forum/neo4j)
+
+-   Le slack (équivalent à un IRC) des utilisateurs :
+    [https://neo4j-users.slack.com/](https://neo4j-users.slack.com/)
+
+-   Stackoverflow
+    [http://stackoverflow.com/questions/tagged/neo4j](http://stackoverflow.com/questions/tagged/neo4j)
+
+N’hésitez pas à y poser vos questions !
+
+Conclusion
+----------
+
+Cet article permet d’avoir une premier contact avec Neo4j et les bases
+de données graphes. Bien qu’introductif, j’espère qu’il démontre la
+puissance des bases de données graphes et à quoi elles peuvent servir.
+
+Mais attention, une fois qu’on rentre la matrice des graphes, on ne plus
+s’en passer et on en voit partout : Graph are everywhere !

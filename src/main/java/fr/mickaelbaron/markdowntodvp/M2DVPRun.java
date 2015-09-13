@@ -54,9 +54,9 @@ public class M2DVPRun {
     public static void main(String[] args) throws IOException {
 	// This is just a _hack_ ...
 	BufferedReader reader = null;
-	if (args.length == 0) {
+	if (args == null || args.length == 0) {
 	    System.err.println("No input file specified.");
-	    System.exit(-1);
+	    return;
 	}
 
 	Map<String, String> optionValues = new HashMap<String, String>();
@@ -68,8 +68,9 @@ public class M2DVPRun {
 				    + 3))) {
 			String substring = args[i]
 						.substring(currentKeyOptions.length() + 3);
-			optionValues.put(currentKeyOptions, substring);
-
+			if (substring != null && !substring.isEmpty()) {
+			    optionValues.put(currentKeyOptions, substring);			    
+			}
 		    }
 		}
 	    }
@@ -100,7 +101,12 @@ public class M2DVPRun {
 	
 	Configuration build = Configuration.builder().setDecorator(current).build();
 
-	System.out.println(Processor.process(new File(args[0]), build));
+	try {
+	    System.out.println(Processor.process(new File(args[0]), build));	    
+	} catch(IOException e) {
+	    System.err.println("file " + args[0] + " not found.");
+	    return;
+	}
 
 	if ((optionValues.containsKey("headerfooterfile")) && reader != null) {
 	    String line = reader.readLine();
