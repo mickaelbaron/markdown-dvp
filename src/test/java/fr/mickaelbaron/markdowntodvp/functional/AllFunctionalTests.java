@@ -10,7 +10,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses(value = {
 	MarkupFileTesterWithDocument.class,
-	MarkupFileTesterWithoutDocument.class}
+	MarkupFileTesterWithoutDocument.class,
+	MarkupFileTesterWithoutDocumentAndWithExtensions.class}
 	)
 public class AllFunctionalTests {
 }

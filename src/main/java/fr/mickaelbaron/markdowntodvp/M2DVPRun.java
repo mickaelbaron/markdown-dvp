@@ -55,7 +55,7 @@ public class M2DVPRun {
 	// This is just a _hack_ ...
 	BufferedReader reader = null;
 	if (args == null || args.length == 0) {
-	    System.err.println("No input file specified.");
+	    System.err.print("No input file specified.");
 	    return;
 	}
 
@@ -104,7 +104,7 @@ public class M2DVPRun {
 	try {
 	    System.out.println(Processor.process(new File(args[0]), build));	    
 	} catch(IOException e) {
-	    System.err.println("file " + args[0] + " not found.");
+	    System.err.print("file " + args[0] + " not found.");
 	    return;
 	}
 

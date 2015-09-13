@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -55,7 +56,7 @@ public abstract class AbstractMarkupFileTester {
 	    throws IOException {
 	final List<TestResultPair> fullResultPairList = new ArrayList<TestResultPair>();
 	for (final String filename : fileNames) {
-	    fullResultPairList.addAll(newTestResultPairList(path + File.separator + filename));
+	    fullResultPairList.addAll(newTestResultPairList(path + "//" + filename));
 	}
 
 	final Collection<Object[]> testResultPairs = new ArrayList<Object[]>();

@@ -41,7 +41,7 @@ public class M2DVPRunTest {
     @Test
     public void mainWithoutParameterTest() throws IOException {
 	M2DVPRun.main(null);
-	Assert.assertEquals("No input file specified.\n", errContent.toString());
+	Assert.assertEquals("No input file specified.", errContent.toString());
     }
     
     @Test
@@ -56,6 +56,6 @@ public class M2DVPRunTest {
     public void mainWithUnknownFilenameTest() throws IOException {
 	String[] stringArrays = { "bad.text" };
 	M2DVPRun.main(stringArrays);
-	Assert.assertEquals("file filename not found.\n", errContent.toString());
+	Assert.assertEquals("file bad.text not found.", errContent.toString());
     }
 }

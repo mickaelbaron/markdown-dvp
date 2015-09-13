@@ -1,4 +1,4 @@
-# Test 1 (superscript)
+# Test 1 (subscript)
 This is the ~first~ paragraph.
 
 And ~this~ is ~the~ second.

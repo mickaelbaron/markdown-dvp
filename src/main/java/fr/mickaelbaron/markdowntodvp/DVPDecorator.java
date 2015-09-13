@@ -13,6 +13,8 @@ import com.github.rjeschke.txtmark.Utils;
  */
 public class DVPDecorator extends DefaultDecorator {
 
+    protected final String codeLanguageDefault = "other";
+    
     protected char[] pattern = { 'I', 'a', '1', '1', '1', '1' };
 
     protected boolean[] sectionState = { false, false, false, false, false,
@@ -158,7 +160,7 @@ public class DVPDecorator extends DefaultDecorator {
 
     @Override
     public void openCodeBlock(StringBuilder out) {
-	out.append("<code showLines=\"1\"><![CDATA[");
+	out.append("<code langage=\"" + codeLanguageDefault + "\" showLines=\"1\"><![CDATA[");
     }
 
     @Override

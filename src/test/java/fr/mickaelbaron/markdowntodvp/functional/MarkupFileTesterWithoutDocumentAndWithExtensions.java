@@ -19,22 +19,20 @@ import fr.mickaelbaron.markdowntodvp.DVPDecorator;
  * @author Mickael BARON
  */
 @RunWith(value = Parameterized.class)
-public class MarkupFileTesterWithoutDocument extends AbstractMarkupFileTester {
+public class MarkupFileTesterWithoutDocumentAndWithExtensions extends AbstractMarkupFileTester {
 
-    protected static String[] testFilenames = new String[] { "blockquote.txt",
-	    "codebloc.txt", "codespans.txt", "dash.txt", "emphase.txt",
-	    "images.txt", "links.txt", "newline.txt", "paragraph.txt",
-	    "section.txt", "strong.txt", "unorderedlist.txt" };
+    protected static String[] testFilenames = new String[] { "strike.txt","subscript.txt",
+	    "superscript.txt"};
 
     @Parameters
     public static Collection<Object[]> testResultPairs() throws IOException {
-	return AbstractMarkupFileTester.testResultStringPairs("/withoutdocument", testFilenames);
+	return AbstractMarkupFileTester.testResultStringPairs("/withoutdocument/withextensions", testFilenames);
     }
 
-    public MarkupFileTesterWithoutDocument(final TestResultPair pair) {
+    public MarkupFileTesterWithoutDocumentAndWithExtensions(final TestResultPair pair) {
 	super(pair);
 
-	build = Configuration.builder().setDecorator(new DVPDecorator()).build();
+	build = Configuration.builder().forceExtentedProfile().setDecorator(new DVPDecorator()).build();
     }
 
     @Test

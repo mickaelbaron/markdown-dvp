@@ -20,10 +20,13 @@ import fr.mickaelbaron.markdowntodvp.M2DVPRun;
 @RunWith(value = Parameterized.class)
 public class MarkupFileTesterWithDocument extends AbstractMarkupFileTester {
 
-    protected static String[] testFilenames = new String[] { 
-	    "daringfireball-markdowndocumentation-sample",
-	    "markitdown-sample"};
+//    protected static String[] testFilenames = new String[] { 
+//	    "daringfireball-markdowndocumentation-sample",
+//	    "markitdown-sample"};
 
+    protected static String[] testFilenames = new String[] { 
+	    "index"};
+    
     @Parameters
     public static Collection<Object[]> testResultPairs() throws IOException, URISyntaxException {
 	return AbstractMarkupFileTester.testResultFilePairs("/withdocument", testFilenames);

@@ -105,7 +105,7 @@ public class Configuration {
     public static class Builder {
 	private boolean safeMode = false;
 
-	private boolean forceExtendedProfile = true;
+	private boolean forceExtendedProfile = false;
 
 	private boolean convertNewline2Br = false;
 
