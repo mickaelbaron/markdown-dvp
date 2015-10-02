@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 René Jeschke <rene_jeschke@yahoo.de>
+ * Copyright (C) 2011-2015 René Jeschke <rene_jeschke@yahoo.de>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,37 +17,37 @@ package com.github.rjeschke.txtmark;
 
 /**
  * A markdown link reference.
- * 
+ *
  * @author René Jeschke <rene_jeschke@yahoo.de>
  */
-class LinkRef {
+class LinkRef
+{
     /** The link. */
-    public final String link;
+    public final String  link;
     /** The optional comment/title. */
-    public String title;
+    public String        title;
     /** Flag indicating that this is an abbreviation. */
     public final boolean isAbbrev;
 
     /**
      * Constructor.
-     * 
+     *
      * @param link
      *            The link.
      * @param title
      *            The title (may be <code>null</code>).
      */
-    public LinkRef(final String link, final String title,
-	    final boolean isAbbrev) {
-	this.link = link;
-	this.title = title;
-	this.isAbbrev = isAbbrev;
+    public LinkRef(final String link, final String title, final boolean isAbbrev)
+    {
+        this.link = link;
+        this.title = title;
+        this.isAbbrev = isAbbrev;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
+    /** @see java.lang.Object#toString() */
     @Override
-    public String toString() {
-	return this.link + " \"" + this.title + "\"";
+    public String toString()
+    {
+        return this.link + " \"" + this.title + "\"";
     }
 }

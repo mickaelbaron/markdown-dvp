@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class DVPUtils {
 
+    protected static final String IMAGE_DIRECTORY_DEFAULT = "images";
+
     public static String getRomanNumeralsFromNumber(int Int) {
 	LinkedHashMap<String, Integer> roman_numerals = new LinkedHashMap<String, Integer>();
 	roman_numerals.put("M", 1000);
@@ -39,7 +41,7 @@ public class DVPUtils {
 	}
 	return sb.toString();
     }
-    
+
     public static String getLetterFromNumber(int i) {
 	// return null for bad input
 	if (i < 0) {
@@ -60,5 +62,15 @@ public class DVPUtils {
 	}
 
 	return result;
+    }
+
+    public static String replaceIntoImageDirectory(String src) {
+	int lastIndexOf = src.lastIndexOf('/');
+	if (lastIndexOf != -1) {
+	    return IMAGE_DIRECTORY_DEFAULT
+		    + src.substring(lastIndexOf, src.length());
+	} else {
+	    return IMAGE_DIRECTORY_DEFAULT + "/" + src;
+	}
     }
 }

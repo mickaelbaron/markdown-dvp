@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 René Jeschke <rene_jeschke@yahoo.de>
+ * Copyright (C) 2011-2015 René Jeschke <rene_jeschke@yahoo.de>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,38 +26,35 @@ import java.io.StringReader;
 
 /**
  * Markdown processor class.
- * 
+ *
  * <p>
  * Example usage:
  * </p>
- * 
+ *
  * <pre>
  * <code>String result = Processor.process("This is ***TXTMARK***");
  * </code>
  * </pre>
- * 
- * @author René Jeschke <rene_jeschke@yahoo.de>
+ *
+ * @author René Jeschke &lt;rene_jeschke@yahoo.de&gt;
  */
 public class Processor {
     /** The reader. */
     private final Reader reader;
-
     /** The emitter. */
-    protected final Emitter emitter;
-
+    private final Emitter emitter;
     /** The Configuration. */
     final Configuration config;
-
     /** Extension flag. */
     private boolean useExtensions = false;
 
     /**
      * Constructor.
-     * 
+     *
      * @param reader
      *            The input reader.
      */
-    protected Processor(final Reader reader, final Configuration config) {
+    private Processor(final Reader reader, final Configuration config) {
 	this.reader = reader;
 	this.config = config;
 	this.useExtensions = config.forceExtendedProfile;
@@ -66,7 +63,7 @@ public class Processor {
 
     /**
      * Transforms an input stream into HTML using the given Configuration.
-     * 
+     *
      * @param reader
      *            The Reader to process.
      * @param configuration
@@ -79,14 +76,15 @@ public class Processor {
      */
     public final static String process(final Reader reader,
 	    final Configuration configuration) throws IOException {
-	final Processor p = new Processor(!(reader instanceof BufferedReader)
-		? new BufferedReader(reader) : reader, configuration);
+	final Processor p = new Processor(
+		!(reader instanceof BufferedReader) ? new BufferedReader(reader)
+			: reader, configuration);
 	return p.process();
     }
 
     /**
      * Transforms an input String into HTML using the given Configuration.
-     * 
+     *
      * @param input
      *            The String to process.
      * @param configuration
@@ -97,10 +95,6 @@ public class Processor {
      */
     public final static String process(final String input,
 	    final Configuration configuration) {
-	if (input == null) {
-	    return null;
-	}
-
 	try {
 	    return process(new StringReader(input), configuration);
 	} catch (final IOException e) {
@@ -111,9 +105,11 @@ public class Processor {
 
     /**
      * Transforms an input file into HTML using the given Configuration.
-     * 
+     *
      * @param file
      *            The File to process.
+     * @param configuration
+     *            the Configuration
      * @return The processed String.
      * @throws IOException
      *             if an IO error occurs
@@ -130,7 +126,7 @@ public class Processor {
 
     /**
      * Transforms an input stream into HTML using the given Configuration.
-     * 
+     *
      * @param input
      *            The InputStream to process.
      * @param configuration
@@ -143,16 +139,15 @@ public class Processor {
      */
     public final static String process(final InputStream input,
 	    final Configuration configuration) throws IOException {
-	final Processor p = new Processor(
-		new BufferedReader(
-			new InputStreamReader(input, configuration.encoding)),
+	final Processor p = new Processor(new BufferedReader(
+		new InputStreamReader(input, configuration.encoding)),
 		configuration);
 	return p.process();
     }
 
     /**
      * Transforms an input String into HTML using the default Configuration.
-     * 
+     *
      * @param input
      *            The String to process.
      * @return The processed String.
@@ -164,7 +159,7 @@ public class Processor {
 
     /**
      * Transforms an input String into HTML.
-     * 
+     *
      * @param input
      *            The String to process.
      * @param safeMode
@@ -174,13 +169,13 @@ public class Processor {
      */
     public final static String process(final String input,
 	    final boolean safeMode) {
-	return process(input,
-		Configuration.builder().setSafeMode(safeMode).build());
+	return process(input, Configuration.builder().setSafeMode(safeMode)
+		.build());
     }
 
     /**
      * Transforms an input String into HTML.
-     * 
+     *
      * @param input
      *            The String to process.
      * @param decorator
@@ -190,13 +185,13 @@ public class Processor {
      */
     public final static String process(final String input,
 	    final Decorator decorator) {
-	return process(input,
-		Configuration.builder().setDecorator(decorator).build());
+	return process(input, Configuration.builder().setDecorator(decorator)
+		.build());
     }
 
     /**
      * Transforms an input String into HTML.
-     * 
+     *
      * @param input
      *            The String to process.
      * @param decorator
@@ -214,7 +209,7 @@ public class Processor {
 
     /**
      * Transforms an input file into HTML using the default Configuration.
-     * 
+     *
      * @param file
      *            The File to process.
      * @return The processed String.
@@ -228,7 +223,7 @@ public class Processor {
 
     /**
      * Transforms an input file into HTML.
-     * 
+     *
      * @param file
      *            The File to process.
      * @param safeMode
@@ -240,13 +235,13 @@ public class Processor {
      */
     public final static String process(final File file, final boolean safeMode)
 	    throws IOException {
-	return process(file,
-		Configuration.builder().setSafeMode(safeMode).build());
+	return process(file, Configuration.builder().setSafeMode(safeMode)
+		.build());
     }
 
     /**
      * Transforms an input file into HTML.
-     * 
+     *
      * @param file
      *            The File to process.
      * @param decorator
@@ -258,13 +253,13 @@ public class Processor {
      */
     public final static String process(final File file,
 	    final Decorator decorator) throws IOException {
-	return process(file,
-		Configuration.builder().setDecorator(decorator).build());
+	return process(file, Configuration.builder().setDecorator(decorator)
+		.build());
     }
 
     /**
      * Transforms an input file into HTML.
-     * 
+     *
      * @param file
      *            The File to process.
      * @param decorator
@@ -278,14 +273,14 @@ public class Processor {
      */
     public final static String process(final File file,
 	    final Decorator decorator, final boolean safeMode)
-		    throws IOException {
+	    throws IOException {
 	return process(file, Configuration.builder().setDecorator(decorator)
 		.setSafeMode(safeMode).build());
     }
 
     /**
      * Transforms an input file into HTML.
-     * 
+     *
      * @param file
      *            The File to process.
      * @param encoding
@@ -297,13 +292,13 @@ public class Processor {
      */
     public final static String process(final File file, final String encoding)
 	    throws IOException {
-	return process(file,
-		Configuration.builder().setEncoding(encoding).build());
+	return process(file, Configuration.builder().setEncoding(encoding)
+		.build());
     }
 
     /**
      * Transforms an input file into HTML.
-     * 
+     *
      * @param file
      *            The File to process.
      * @param encoding
@@ -323,7 +318,7 @@ public class Processor {
 
     /**
      * Transforms an input file into HTML.
-     * 
+     *
      * @param file
      *            The File to process.
      * @param encoding
@@ -343,7 +338,7 @@ public class Processor {
 
     /**
      * Transforms an input file into HTML.
-     * 
+     *
      * @param file
      *            The File to process.
      * @param encoding
@@ -359,14 +354,14 @@ public class Processor {
      */
     public final static String process(final File file, final String encoding,
 	    final Decorator decorator, final boolean safeMode)
-		    throws IOException {
+	    throws IOException {
 	return process(file, Configuration.builder().setEncoding(encoding)
 		.setSafeMode(safeMode).setDecorator(decorator).build());
     }
 
     /**
      * Transforms an input stream into HTML.
-     * 
+     *
      * @param input
      *            The InputStream to process.
      * @return The processed String.
@@ -381,7 +376,7 @@ public class Processor {
 
     /**
      * Transforms an input stream into HTML.
-     * 
+     *
      * @param input
      *            The InputStream to process.
      * @param safeMode
@@ -393,13 +388,13 @@ public class Processor {
      */
     public final static String process(final InputStream input,
 	    final boolean safeMode) throws IOException {
-	return process(input,
-		Configuration.builder().setSafeMode(safeMode).build());
+	return process(input, Configuration.builder().setSafeMode(safeMode)
+		.build());
     }
 
     /**
      * Transforms an input stream into HTML.
-     * 
+     *
      * @param input
      *            The InputStream to process.
      * @param decorator
@@ -411,13 +406,13 @@ public class Processor {
      */
     public final static String process(final InputStream input,
 	    final Decorator decorator) throws IOException {
-	return process(input,
-		Configuration.builder().setDecorator(decorator).build());
+	return process(input, Configuration.builder().setDecorator(decorator)
+		.build());
     }
 
     /**
      * Transforms an input stream into HTML.
-     * 
+     *
      * @param input
      *            The InputStream to process.
      * @param decorator
@@ -431,14 +426,14 @@ public class Processor {
      */
     public final static String process(final InputStream input,
 	    final Decorator decorator, final boolean safeMode)
-		    throws IOException {
+	    throws IOException {
 	return process(input, Configuration.builder().setDecorator(decorator)
 		.setSafeMode(safeMode).build());
     }
 
     /**
      * Transforms an input stream into HTML.
-     * 
+     *
      * @param input
      *            The InputStream to process.
      * @param encoding
@@ -450,13 +445,13 @@ public class Processor {
      */
     public final static String process(final InputStream input,
 	    final String encoding) throws IOException {
-	return process(input,
-		Configuration.builder().setEncoding(encoding).build());
+	return process(input, Configuration.builder().setEncoding(encoding)
+		.build());
     }
 
     /**
      * Transforms an input stream into HTML.
-     * 
+     *
      * @param input
      *            The InputStream to process.
      * @param encoding
@@ -476,7 +471,7 @@ public class Processor {
 
     /**
      * Transforms an input stream into HTML.
-     * 
+     *
      * @param input
      *            The InputStream to process.
      * @param encoding
@@ -490,14 +485,14 @@ public class Processor {
      */
     public final static String process(final InputStream input,
 	    final String encoding, final Decorator decorator)
-		    throws IOException {
+	    throws IOException {
 	return process(input, Configuration.builder().setEncoding(encoding)
 		.setDecorator(decorator).build());
     }
 
     /**
      * Transforms an input stream into HTML.
-     * 
+     *
      * @param input
      *            The InputStream to process.
      * @param encoding
@@ -520,7 +515,7 @@ public class Processor {
 
     /**
      * Transforms an input stream into HTML using the default Configuration.
-     * 
+     *
      * @param reader
      *            The Reader to process.
      * @return The processed String.
@@ -534,7 +529,7 @@ public class Processor {
 
     /**
      * Transforms an input stream into HTML.
-     * 
+     *
      * @param reader
      *            The Reader to process.
      * @param safeMode
@@ -546,13 +541,13 @@ public class Processor {
      */
     public final static String process(final Reader reader,
 	    final boolean safeMode) throws IOException {
-	return process(reader,
-		Configuration.builder().setSafeMode(safeMode).build());
+	return process(reader, Configuration.builder().setSafeMode(safeMode)
+		.build());
     }
 
     /**
      * Transforms an input stream into HTML.
-     * 
+     *
      * @param reader
      *            The Reader to process.
      * @param decorator
@@ -564,13 +559,13 @@ public class Processor {
      */
     public final static String process(final Reader reader,
 	    final Decorator decorator) throws IOException {
-	return process(reader,
-		Configuration.builder().setDecorator(decorator).build());
+	return process(reader, Configuration.builder().setDecorator(decorator)
+		.build());
     }
 
     /**
      * Transforms an input stream into HTML.
-     * 
+     *
      * @param reader
      *            The Reader to process.
      * @param decorator
@@ -584,7 +579,7 @@ public class Processor {
      */
     public final static String process(final Reader reader,
 	    final Decorator decorator, final boolean safeMode)
-		    throws IOException {
+	    throws IOException {
 	return process(reader, Configuration.builder().setDecorator(decorator)
 		.setSafeMode(safeMode).build());
     }
@@ -594,14 +589,13 @@ public class Processor {
      * <p>
      * Takes care of markdown link references.
      * </p>
-     * 
+     *
      * @return A Block containing all lines.
      * @throws IOException
      *             If an IO error occurred.
      */
     private Block readLines() throws IOException {
 	final Block block = new Block();
-
 	final StringBuilder sb = new StringBuilder(80);
 	int c = this.reader.read();
 	LinkRef lastLinkRef = null;
@@ -638,12 +632,18 @@ public class Processor {
 		    break;
 		}
 		default:
-		    pos++;
-		    sb.append((char) c);
+		    if (c != '<' || !this.config.panicMode) {
+			pos++;
+			sb.append((char) c);
+		    } else {
+			pos += 4;
+			sb.append("&lt;");
+		    }
 		    c = this.reader.read();
 		    break;
 		}
 	    }
+
 	    final Line line = new Line();
 	    line.value = sb.toString();
 	    line.init();
@@ -679,8 +679,8 @@ public class Processor {
 				// Read comment
 				if (ch == '\"' || ch == '\'' || ch == '(') {
 				    line.pos++;
-				    comment = line
-					    .readUntil(ch == '(' ? ')' : ch);
+				    comment = line.readUntil(ch == '(' ? ')'
+					    : ch);
 				    // Valid linkRef only if comment is valid
 				    if (comment != null) {
 					isLinkRef = true;
@@ -702,9 +702,11 @@ public class Processor {
 		    lastLinkRef = null;
 		} else {
 		    // Store linkRef and skip line
-		    final LinkRef lr = new LinkRef(link, comment,
-			    comment != null && (link.length() == 1
-				    && link.charAt(0) == '*'));
+		    final LinkRef lr = new LinkRef(
+			    link,
+			    comment,
+			    comment != null
+				    && (link.length() == 1 && link.charAt(0) == '*'));
 		    this.emitter.addLinkRef(id, lr);
 		    if (comment == null) {
 			lastLinkRef = lr;
@@ -740,7 +742,7 @@ public class Processor {
 
     /**
      * Initializes a list block by separating it into list item blocks.
-     * 
+     *
      * @param root
      *            The Block to process.
      */
@@ -748,11 +750,9 @@ public class Processor {
 	Line line = root.lines;
 	line = line.next;
 	while (line != null) {
-	    final LineType t = line.getLineType(this.useExtensions);
+	    final LineType t = line.getLineType(this.config);
 	    if ((t == LineType.OLIST || t == LineType.ULIST)
-		    || (!line.isEmpty && (line.prevEmpty && line.leading == 0
-			    && !(t == LineType.OLIST
-				    || t == LineType.ULIST)))) {
+		    || (!line.isEmpty && (line.prevEmpty && line.leading == 0 && !(t == LineType.OLIST || t == LineType.ULIST)))) {
 		root.split(line.previous).type = BlockType.LIST_ITEM;
 	    }
 	    line = line.next;
@@ -762,7 +762,7 @@ public class Processor {
 
     /**
      * Recursively process the given Block.
-     * 
+     *
      * @param root
      *            The Block to process.
      * @param listMode
@@ -773,9 +773,9 @@ public class Processor {
 	Line line = root.lines;
 
 	if (listMode) {
-	    root.removeListIndent(this.useExtensions);
-	    if (this.useExtensions && root.lines != null && root.lines
-		    .getLineType(this.useExtensions) != LineType.CODE) {
+	    root.removeListIndent(this.config);
+	    if (this.useExtensions && root.lines != null
+		    && root.lines.getLineType(this.config) != LineType.CODE) {
 		root.id = root.lines.stripID();
 	    }
 	}
@@ -788,12 +788,12 @@ public class Processor {
 	}
 
 	while (line != null) {
-	    final LineType type = line.getLineType(this.useExtensions);
+	    final LineType type = line.getLineType(this.config);
 	    switch (type) {
 	    case OTHER: {
 		final boolean wasEmpty = line.prevEmpty;
 		while (line != null && !line.isEmpty) {
-		    final LineType t = line.getLineType(this.useExtensions);
+		    final LineType t = line.getLineType(this.config);
 		    if ((listMode || this.useExtensions)
 			    && (t == LineType.OLIST || t == LineType.ULIST)) {
 			break;
@@ -816,39 +816,14 @@ public class Processor {
 		    root.split(line.previous).type = bt;
 		    root.removeLeadingEmptyLines();
 		} else {
-		    bt = (listMode && (line == null || !line.isEmpty)
-			    && !wasEmpty) ? BlockType.NONE
-				    : BlockType.PARAGRAPH;
+		    bt = (listMode && (line == null || !line.isEmpty) && !wasEmpty) ? BlockType.NONE
+			    : BlockType.PARAGRAPH;
 		    root.split(line == null ? root.lineTail : line).type = bt;
 		    root.removeLeadingEmptyLines();
 		}
 		line = root.lines;
 		break;
 	    }
-	    case IMAGE: {
-		if (line.previous != null) {
-		    root.split(line.previous);
-		}
-		block = root.split(line);
-		block.type = BlockType.IMAGE;
-		line = root.lines;
-		break;
-	    }
-	    case BQUOTE:
-		while (line != null) {
-		    if (!line.isEmpty && (line.prevEmpty && line.leading == 0
-			    && line.getLineType(
-				    this.useExtensions) != LineType.BQUOTE)) {
-			break;
-		    }
-		    line = line.next;
-		}
-		root.removeBlockQuotePrefix();
-		root.split(line.previous).type = BlockType.BLOCKQUOTE;
-		root.removeLeadingEmptyLines();
-
-		line = root.lines;
-		break;
 	    case CODE:
 		while (line != null && (line.isEmpty || line.leading > 3)) {
 		    line = line.next;
@@ -867,6 +842,34 @@ public class Processor {
 		root.removeLeadingEmptyLines();
 		line = root.lines;
 		break;
+	    // TODO : MB
+	    case IMAGE: {
+		if (line.previous != null) {
+		    root.split(line.previous);
+		}
+		block = root.split(line);
+		block.type = BlockType.IMAGE;
+		line = root.lines;
+		break;
+	    }
+	    case BQUOTE:
+		while (line != null) {
+		    if (!line.isEmpty
+			    && (line.prevEmpty && line.leading == 0 && line
+				    .getLineType(this.config) != LineType.BQUOTE)) {
+			break;
+		    }
+		    line = line.next;
+		}
+		block = root
+			.split(line != null ? line.previous : root.lineTail);
+		block.type = BlockType.BLOCKQUOTE;
+		block.removeSurroundingEmptyLines();
+		block.removeBlockQuotePrefix();
+		// TODO : MB
+		//this.recurse(block, false);
+		line = root.lines;
+		break;
 	    case HR:
 		if (line.previous != null) {
 		    // FIXME ... this looks wrong
@@ -879,8 +882,7 @@ public class Processor {
 	    case FENCED_CODE:
 		line = line.next;
 		while (line != null) {
-		    if (line.getLineType(
-			    this.useExtensions) == LineType.FENCED_CODE) {
+		    if (line.getLineType(this.config) == LineType.FENCED_CODE) {
 			break;
 		    }
 		    // TODO ... is this really necessary? Maybe add a special
@@ -895,8 +897,7 @@ public class Processor {
 		block.type = BlockType.FENCED_CODE;
 		block.meta = Utils.getMetaFromFence(block.lines.value);
 		block.lines.setEmpty();
-		if (block.lineTail.getLineType(
-			this.useExtensions) == LineType.FENCED_CODE) {
+		if (block.lineTail.getLineType(this.config) == LineType.FENCED_CODE) {
 		    block.lineTail.setEmpty();
 		}
 		block.removeSurroundingEmptyLines();
@@ -925,9 +926,9 @@ public class Processor {
 	    case OLIST:
 	    case ULIST:
 		while (line != null) {
-		    final LineType t = line.getLineType(this.useExtensions);
-		    if (!line.isEmpty && (line.prevEmpty && line.leading == 0
-			    && !(t == LineType.OLIST || t == LineType.ULIST))) {
+		    final LineType t = line.getLineType(this.config);
+		    if (!line.isEmpty
+			    && (line.prevEmpty && line.leading == 0 && !(t == LineType.OLIST || t == LineType.ULIST))) {
 			break;
 		    }
 		    line = line.next;
@@ -939,7 +940,7 @@ public class Processor {
 		list.lineTail.nextEmpty = false;
 		list.removeSurroundingEmptyLines();
 		list.lines.prevEmpty = list.lineTail.nextEmpty = false;
-		initListBlock(list);
+		this.initListBlock(list);
 		block = list.blocks;
 		while (block != null) {
 		    this.recurse(block, true);
@@ -956,7 +957,7 @@ public class Processor {
 
     /**
      * Does all the processing.
-     * 
+     *
      * @return The processed String.
      * @throws IOException
      *             If an IO error occurred.
@@ -968,13 +969,13 @@ public class Processor {
 
 	this.recurse(parent, false);
 	Block block = parent.blocks;
-
 	while (block != null) {
 	    this.emitter.emit(out, block);
 	    block = block.next;
 	}
+	// TODO : MB
 	this.emitter.finishDocument(out);
-
+	
 	return out.toString();
     }
 }

@@ -14,7 +14,7 @@ import com.github.rjeschke.txtmark.Utils;
 public class DVPDecorator extends DefaultDecorator {
 
     protected final String codeLanguageDefault = "other";
-    
+        
     protected char[] pattern = { 'I', 'a', '1', '1', '1', '1' };
 
     protected boolean[] sectionState = { false, false, false, false, false,
@@ -212,7 +212,8 @@ public class DVPDecorator extends DefaultDecorator {
 	    String title) {
 	out.append("<image");
 	out.append(" src=\"");
-	Utils.appendValue(out, src, 0, src.length());
+	String replaceIntoImageDirectory = DVPUtils.replaceIntoImageDirectory(src);
+	Utils.appendValue(out, replaceIntoImageDirectory, 0, replaceIntoImageDirectory.length());
 	out.append("\" alt=\"");
 	Utils.appendValue(out, alt, 0, alt.length());
 	out.append('"');

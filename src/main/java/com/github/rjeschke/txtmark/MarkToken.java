@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 René Jeschke <rene_jeschke@yahoo.de>
+ * Copyright (C) 2011-2015 René Jeschke <rene_jeschke@yahoo.de>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,59 +17,59 @@ package com.github.rjeschke.txtmark;
 
 /**
  * Markdown token enumeration.
- * 
+ *
  * @author René Jeschke <rene_jeschke@yahoo.de>
  */
-enum MarkToken {
+enum MarkToken
+{
     /** No token. */
-    NONE, /** &#x2a; */
-    EM_STAR, // x*x
+    NONE,
+    /** &#x2a; */
+    EM_STAR,            // x*x
     /** _ */
-    EM_UNDERSCORE, // x_x
+    EM_UNDERSCORE,      // x_x
     /** &#x2a;&#x2a; */
-    STRONG_STAR, // x**x
+    STRONG_STAR,        // x**x
     /** __ */
-    STRONG_UNDERSCORE, // x__x
-    /** ~~ */
-    STRIKE, // x~~x
+    STRONG_UNDERSCORE,  // x__x
     /** ` */
-    CODE_SINGLE, // `
+    CODE_SINGLE,        // `
     /** `` */
-    CODE_DOUBLE, // ``
+    CODE_DOUBLE,        // ``
     /** [ */
-    LINK, // [
+    LINK,               // [
     /** &lt; */
-    HTML, // <
+    HTML,               // <
     /** ![ */
-    IMAGE, // ![
+    IMAGE,              // ![
     /** &amp; */
-    ENTITY, // &
+    ENTITY,             // &
     /** \ */
-    ESCAPE, // \x
+    ESCAPE,             // \x
     /** Extended: ^ */
-    SUPER, // ^
+    SUPER,              // ^
     /** Extended: (C) */
-    X_COPY, // (C)
+    X_COPY,             // (C)
     /** Extended: (R) */
-    X_REG, // (R)
+    X_REG,              // (R)
     /** Extended: (TM) */
-    X_TRADE, // (TM)
+    X_TRADE,            // (TM)
     /** Extended: &lt;&lt; */
-    X_LAQUO, // <<
+    X_LAQUO,            // <<
     /** Extended: >> */
-    X_RAQUO, // >>
+    X_RAQUO,            // >>
     /** Extended: -- */
-    X_NDASH, // --
+    X_NDASH,            // --
     /** Extended: --- */
-    X_MDASH, // ---
+    X_MDASH,            // ---
     /** Extended: &#46;&#46;&#46; */
-    X_HELLIP, // ...
+    X_HELLIP,           // ...
     /** Extended: "x */
-    X_RDQUO, // "
+    X_RDQUO,            // "
     /** Extended: x" */
-    X_LDQUO, // "
+    X_LDQUO,            // "
     /** [[ */
-    X_LINK_OPEN, // [[
+    X_LINK_OPEN,        // [[
     /** ]] */
-    X_LINK_CLOSE, // ]]
+    X_LINK_CLOSE,       // ]]
 }

@@ -11,7 +11,7 @@ import fr.mickaelbaron.markdowntodvp.functional.AllFunctionalTests;
  */
 @RunWith(Suite.class)
 @SuiteClasses(value = {
-//	DVPDecoratorTest.class,
+	DVPDecoratorTest.class,
 	DVPUtilsTest.class,
 	M2DVPRunTest.class,
 	AllFunctionalTests.class}

@@ -1,0 +1,17 @@
+# Test 1 (fenced code bloc)
+```
+This is code!
+```
+    
+# Result 1
+<code langage="other" showLines="1"><![CDATA[This is code!
+]]></code>
+
+# Test 2 (fenced code bloc)
+```java
+This is code!
+```
+    
+# Result 2
+<code langage="java" showLines="1"><![CDATA[This is code!
+]]></code>

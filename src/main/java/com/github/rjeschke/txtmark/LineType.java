@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 René Jeschke <rene_jeschke@yahoo.de>
+ * Copyright (C) 2011-2015 René Jeschke <rene_jeschke@yahoo.de>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,19 +17,28 @@ package com.github.rjeschke.txtmark;
 
 /**
  * Line type enumeration.
- * 
+ *
  * @author René Jeschke <rene_jeschke@yahoo.de>
  */
-enum LineType {
+enum LineType
+{
     /** Empty line. */
-    EMPTY, /** Undefined content. */
-    OTHER, /** A markdown headline. */
-    HEADLINE, HEADLINE1, HEADLINE2, /** A code block line. */
-    CODE, /** A list. */
-    ULIST, OLIST, /** A block quote. */
-    BQUOTE, /** A horizontal ruler. */
-    HR, /** Start of a XML block. */
-    XML, /** Fenced code block start/end */
-    FENCED_CODE, 
+    EMPTY,
+    /** Undefined content. */
+    OTHER,
+    /** A markdown headline. */
+    HEADLINE, HEADLINE1, HEADLINE2,
+    /** A code block line. */
+    CODE,
+    /** A list. */
+    ULIST, OLIST,
+    /** A block quote. */
+    BQUOTE,
+    /** A horizontal ruler. */
+    HR,
+    /** Start of a XML block. */
+    XML,
+    /** Fenced code block start/end */
+    FENCED_CODE,
     IMAGE
 }

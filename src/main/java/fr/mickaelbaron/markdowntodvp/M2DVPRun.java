@@ -46,8 +46,10 @@ public class M2DVPRun {
     
     private static final String FORMAT_KEY = "format";
     
+    private static final String USE_EXTENSION_KEY = "useextension";
+    
     private static final String[] KEY_OPTIONS = { HEADER_FOOTER_KEY,
-	    FORMAT_KEY };
+	    FORMAT_KEY, USE_EXTENSION_KEY };
 
     private static final String DVP_FORMAT = "dvp";
     
@@ -99,8 +101,20 @@ public class M2DVPRun {
 	    current = new DefaultDecorator();
 	}
 	
-	Configuration build = Configuration.builder().setDecorator(current).build();
-
+	Configuration build;
+	
+	if (optionValues.containsKey(USE_EXTENSION_KEY)) {
+	    String useExtensionValue = optionValues.get(USE_EXTENSION_KEY);
+	    
+	    if ("true".equalsIgnoreCase(useExtensionValue)) {
+		build = Configuration.builder().forceExtentedProfile().setCodeBlockEmitter(new CodeBlockEmitter()).setDecorator(current).build();
+	    } else {
+		build = Configuration.builder().setDecorator(current).build();
+	    }
+	} else {
+	    build = Configuration.builder().setDecorator(current).build();
+	}
+	
 	try {
 	    System.out.println(Processor.process(new File(args[0]), build));	    
 	} catch(IOException e) {

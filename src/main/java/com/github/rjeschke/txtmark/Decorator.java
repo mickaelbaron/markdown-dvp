@@ -448,6 +448,11 @@ public interface Decorator {
     void openLink(final StringBuilder out);
     
     /**
+     * @param out
+     */
+    void closeLink(final StringBuilder out);
+
+    /**
      * Called when an image is opened.
      * 
      * <p>
@@ -467,12 +472,24 @@ public interface Decorator {
     void openImage(final StringBuilder out, String src, String alt, String title);
 
     /**
+     * Called when an image is closed.
+     *
+     * <p>
+     * Default implementation is:
+     * </p>
+     *
+     * <pre>
+     * <code>out.append(" /&gt;");</code>
+     * </pre>
+     *
      * @param out
+     *            The StringBuilder to write to.
      */
-    void closeDocument(StringBuilder out);
+    void closeImage(final StringBuilder out);
 
     /**
      * @param out
      */
-    void closeLink(final StringBuilder out);
+    void closeDocument(StringBuilder out);
+
 }

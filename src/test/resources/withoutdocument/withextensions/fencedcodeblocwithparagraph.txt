@@ -1,0 +1,14 @@
+# Test 1 (fenced code bloc)
+Ceci est un paragraphe.
+
+```
+This is code!
+```
+
+Ceci est un autre paragraphe.
+    
+# Result 1
+<paragraph>Ceci est un paragraphe.</paragraph>
+<code langage="other" showLines="1"><![CDATA[This is code!
+]]></code>
+<paragraph>Ceci est un autre paragraphe.</paragraph>

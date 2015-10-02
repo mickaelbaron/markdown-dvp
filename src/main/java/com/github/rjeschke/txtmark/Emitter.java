@@ -30,14 +30,11 @@ public class Emitter {
     private final Configuration config;
     /** Extension flag. */
     public boolean useExtensions = false;
-    /** Newline flag. */
-    public boolean convertNewline2Br = false;
 
     /** Constructor. */
     public Emitter(final Configuration config) {
 	this.config = config;
 	this.useExtensions = config.forceExtendedProfile;
-	this.convertNewline2Br = config.convertNewline2Br;
     }
 
     /**
@@ -50,10 +47,6 @@ public class Emitter {
      */
     public void addLinkRef(final String key, final LinkRef linkRef) {
 	this.linkRefs.put(key.toLowerCase(), linkRef);
-    }
-
-    public void finishDocument(final StringBuilder out) {
-	this.config.decorator.closeDocument(out);
     }
 
     /**
@@ -81,6 +74,8 @@ public class Emitter {
 		Utils.appendCode(out, root.id, 0, root.id.length());
 		out.append('"');
 	    }
+	    // TODO : MB
+	    // out.append('>');
 	    break;
 	case PARAGRAPH:
 	    this.config.decorator.openParagraph(out);
@@ -108,9 +103,8 @@ public class Emitter {
 	    }
 	    out.append('>');
 	    break;
+	// TODO : MB
 	case IMAGE:
-	    // Is a special case because, IMAGE can be a block and a marked
-	    // line.
 	    break;
 	}
 
@@ -137,8 +131,9 @@ public class Emitter {
 	    break;
 	case CODE:
 	case FENCED_CODE:
-	    if (this.config.codeBlockEmitter == null)
+	    if (this.config.codeBlockEmitter == null) {
 		this.config.decorator.closeCodeBlock(out);
+	    }
 	    break;
 	case BLOCKQUOTE:
 	    this.config.decorator.closeBlockquote(out);
@@ -152,9 +147,8 @@ public class Emitter {
 	case LIST_ITEM:
 	    this.config.decorator.closeListItem(out);
 	    break;
+	// TODO : MB
 	case IMAGE:
-	    // Is a special case because, IMAGE can be a block and a marked
-	    // line.
 	    break;
 	}
     }
@@ -179,9 +173,6 @@ public class Emitter {
 	    this.emitRawLines(out, block.lines);
 	    break;
 	case BLOCKQUOTE:
-	    this.emitMarkedLines(out, block.lines);
-	    break;
-	case PARAGRAPH:
 	    this.emitMarkedLines(out, block.lines);
 	    break;
 	default:
@@ -232,10 +223,12 @@ public class Emitter {
 
 	temp.setLength(0);
 	pos = Utils.readMdLinkId(temp, in, pos);
-	if (pos < start)
+	if (pos < start) {
 	    return -1;
+	}
 
-	String name = temp.toString(), link = null, comment = null;
+	String name = temp.toString();
+	String link = null, comment = null;
 	final int oldPos = pos++;
 	pos = Utils.skipSpaces(in, pos);
 	if (pos < start) {
@@ -251,16 +244,19 @@ public class Emitter {
 	} else if (in.charAt(pos) == '(') {
 	    pos++;
 	    pos = Utils.skipSpaces(in, pos);
-	    if (pos < start)
+	    if (pos < start) {
 		return -1;
+	    }
 	    temp.setLength(0);
 	    boolean useLt = in.charAt(pos) == '<';
 	    pos = useLt ? Utils.readUntil(temp, in, pos + 1, '>') : Utils
 		    .readMdLink(temp, in, pos);
-	    if (pos < start)
+	    if (pos < start) {
 		return -1;
-	    if (useLt)
+	    }
+	    if (useLt) {
 		pos++;
+	    }
 	    link = temp.toString();
 
 	    if (in.charAt(pos) == ' ') {
@@ -269,23 +265,27 @@ public class Emitter {
 		    pos++;
 		    temp.setLength(0);
 		    pos = Utils.readUntil(temp, in, pos, '"');
-		    if (pos < start)
+		    if (pos < start) {
 			return -1;
+		    }
 		    comment = temp.toString();
 		    pos++;
 		    pos = Utils.skipSpaces(in, pos);
-		    if (pos == -1)
+		    if (pos == -1) {
 			return -1;
+		    }
 		}
 	    }
-	    if (in.charAt(pos) != ')')
+	    if (in.charAt(pos) != ')') {
 		return -1;
+	    }
 	} else if (in.charAt(pos) == '[') {
 	    pos++;
 	    temp.setLength(0);
 	    pos = Utils.readRawUntil(temp, in, pos, ']');
-	    if (pos < start)
+	    if (pos < start) {
 		return -1;
+	    }
 	    final String id = temp.length() > 0 ? temp.toString() : name;
 	    final LinkRef lr = this.linkRefs.get(id.toLowerCase());
 	    if (lr != null) {
@@ -304,13 +304,15 @@ public class Emitter {
 	    }
 	}
 
-	if (link == null)
+	if (link == null) {
 	    return -1;
+	}
 
 	if (token == MarkToken.LINK) {
 	    if (isAbbrev && comment != null) {
-		if (!this.useExtensions)
+		if (!this.useExtensions) {
 		    return -1;
+		}
 		out.append("<abbr title=\"");
 		Utils.appendValue(out, comment, 0, comment.length());
 		out.append("\">");
@@ -332,7 +334,7 @@ public class Emitter {
 	    }
 	} else {
 	    this.config.decorator.openImage(out, link, name, comment);
-	    out.append(" />");
+	    this.config.decorator.closeImage(out);
 	}
 
 	return pos;
@@ -372,7 +374,7 @@ public class Emitter {
 	    }
 	}
 
-	// Check for mailto or adress auto link
+	// Check for mailto auto link
 	temp.setLength(0);
 	pos = Utils.readUntil(temp, in, start + 1, '@', ' ', '>', '\n');
 	if (pos != -1 && in.charAt(pos) == '@') {
@@ -381,23 +383,10 @@ public class Emitter {
 		final String link = temp.toString();
 		this.config.decorator.openLink(out);
 		out.append(" href=\"");
-
-		// address auto links
-		if (link.startsWith("@")) {
-		    String slink = link.substring(1);
-		    String url = "https://maps.google.com/maps?q="
-			    + slink.replace(' ', '+');
-		    out.append(url);
-		    out.append("\">");
-		    out.append(slink);
-		}
-		// mailto auto links
-		else {
-		    Utils.appendMailto(out, "mailto:", 0, 7);
-		    Utils.appendMailto(out, link, 0, link.length());
-		    out.append("\">");
-		    Utils.appendMailto(out, link, 0, link.length());
-		}
+		Utils.appendMailto(out, "mailto:", 0, 7);
+		Utils.appendMailto(out, link, 0, link.length());
+		out.append("\">");
+		Utils.appendMailto(out, link, 0, link.length());
 		this.config.decorator.closeLink(out);
 		return pos;
 	    }
@@ -449,8 +438,9 @@ public class Emitter {
 	} else {
 	    for (int i = 1; i < out.length(); i++) {
 		final char c = out.charAt(i);
-		if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z'))
+		if (!Character.isLetterOrDigit(c)) {
 		    return -1;
+		}
 	    }
 	    out.append(';');
 	    return HTML.isEntity(out.toString()) ? pos : -1;
@@ -524,18 +514,18 @@ public class Emitter {
 		    out.append(in.charAt(pos));
 		}
 		break;
-	    case STRIKE:
-		temp.setLength(0);
-		b = this.recursiveEmitLine(temp, in, pos + 2, mt);
-		if (b > 0) {
-		    this.config.decorator.openStrike(out);
-		    out.append(temp);
-		    this.config.decorator.closeStrike(out);
-		    pos = b + 1;
-		} else {
-		    out.append(in.charAt(pos));
-		}
-		break;
+//	    case STRIKE:
+//		temp.setLength(0);
+//		b = this.recursiveEmitLine(temp, in, pos + 2, mt);
+//		if (b > 0) {
+//		    this.config.decorator.openStrike(out);
+//		    out.append(temp);
+//		    this.config.decorator.closeStrike(out);
+//		    pos = b + 1;
+//		} else {
+//		    out.append(in.charAt(pos));
+//		}
+//		break;
 	    case SUPER:
 		temp.setLength(0);
 		b = this.recursiveEmitLine(temp, in, pos + 1, mt);
@@ -557,8 +547,9 @@ public class Emitter {
 		    while (a < b && in.charAt(a) == ' ')
 			a++;
 		    if (a < b) {
-			while (in.charAt(b - 1) == ' ')
+			while (in.charAt(b - 1) == ' ') {
 			    b--;
+			}
 			this.config.decorator.openCodeSpan(out);
 			Utils.appendCode(out, in, a, b);
 			this.config.decorator.closeCodeSpan(out);
@@ -631,12 +622,14 @@ public class Emitter {
 		out.append("&raquo;");
 		pos++;
 		break;
-	    case X_RDQUO:
-		out.append("&rdquo;");
-		break;
-	    case X_LDQUO:
-		out.append("&ldquo;");
-		break;
+		// TODO : MB
+//	    case X_RDQUO:
+//		out.append("&rdquo;");
+//		break;
+//	    case X_LDQUO:
+////		out.append("&ldquo;");
+//		out.append("\"");
+//		break;
 	    case ESCAPE:
 		pos++;
 		//$FALL-THROUGH$
@@ -662,7 +655,7 @@ public class Emitter {
 
     /**
      * Check if there is any markdown Token.
-     * 
+     *
      * @param in
      *            Input String.
      * @param pos
@@ -694,26 +687,24 @@ public class Emitter {
 	    if (this.useExtensions) {
 		return Character.isLetterOrDigit(c0) && c0 != '_'
 			&& Character.isLetterOrDigit(c1) ? MarkToken.NONE
-				: MarkToken.EM_UNDERSCORE;
+			: MarkToken.EM_UNDERSCORE;
 	    }
 	    return c0 != ' ' || c1 != ' ' ? MarkToken.EM_UNDERSCORE
 		    : MarkToken.NONE;
-	case '~':
-	    if (this.useExtensions && c1 == '~') {
-		return MarkToken.STRIKE;
+	case '!':
+	    if (c1 == '[') {
+		return MarkToken.IMAGE;
 	    }
 	    return MarkToken.NONE;
-	case '!':
-	    if (c1 == '[')
-		return MarkToken.IMAGE;
-	    return MarkToken.NONE;
 	case '[':
-	    if (this.useExtensions && c1 == '[')
+	    if (this.useExtensions && c1 == '[') {
 		return MarkToken.X_LINK_OPEN;
+	    }
 	    return MarkToken.LINK;
 	case ']':
-	    if (this.useExtensions && c1 == ']')
+	    if (this.useExtensions && c1 == ']') {
 		return MarkToken.X_LINK_CLOSE;
+	    }
 	    return MarkToken.NONE;
 	case '`':
 	    return c1 == '`' ? MarkToken.CODE_DOUBLE : MarkToken.CODE_SINGLE;
@@ -738,14 +729,16 @@ public class Emitter {
 	    case '_':
 	    case '!':
 	    case '`':
+	    case '~':
 	    case '^':
 		return MarkToken.ESCAPE;
 	    default:
 		return MarkToken.NONE;
 	    }
 	case '<':
-	    if (this.useExtensions && c1 == '<')
+	    if (this.useExtensions && c1 == '<') {
 		return MarkToken.X_LAQUO;
+	    }
 	    return MarkToken.HTML;
 	case '&':
 	    return MarkToken.ENTITY;
@@ -753,34 +746,42 @@ public class Emitter {
 	    if (this.useExtensions) {
 		switch (c) {
 		case '-':
-		    if (c1 == '-')
+		    if (c1 == '-') {
 			return c2 == '-' ? MarkToken.X_MDASH
 				: MarkToken.X_NDASH;
+		    }
 		    break;
 		case '^':
 		    return c0 == '^' || c1 == '^' ? MarkToken.NONE
 			    : MarkToken.SUPER;
 		case '>':
-		    if (c1 == '>')
+		    if (c1 == '>') {
 			return MarkToken.X_RAQUO;
+		    }
 		    break;
 		case '.':
-		    if (c1 == '.' && c2 == '.')
+		    if (c1 == '.' && c2 == '.') {
 			return MarkToken.X_HELLIP;
+		    }
 		    break;
 		case '(':
-		    if (c1 == 'C' && c2 == ')')
+		    if (c1 == 'C' && c2 == ')') {
 			return MarkToken.X_COPY;
-		    if (c1 == 'R' && c2 == ')')
+		    }
+		    if (c1 == 'R' && c2 == ')') {
 			return MarkToken.X_REG;
-		    if (c1 == 'T' & c2 == 'M' & c3 == ')')
+		    }
+		    if (c1 == 'T' & c2 == 'M' & c3 == ')') {
 			return MarkToken.X_TRADE;
+		    }
 		    break;
 		case '"':
-		    if (!Character.isLetterOrDigit(c0) && c1 != ' ')
+		    if (!Character.isLetterOrDigit(c0) && c1 != ' ') {
 			return MarkToken.X_LDQUO;
-		    if (c0 != ' ' && !Character.isLetterOrDigit(c1))
+		    }
+		    if (c0 != ' ' && !Character.isLetterOrDigit(c1)) {
 			return MarkToken.X_RDQUO;
+		    }
 		    break;
 		}
 	    }
@@ -803,14 +804,13 @@ public class Emitter {
 	    if (!line.isEmpty) {
 		in.append(line.value.substring(line.leading,
 			line.value.length() - line.trailing));
-		if (line.trailing >= 2 && !convertNewline2Br)
+		if (line.trailing >= 2) {
+		    // TODO : MB
 		    in.append("<br/>");
+		}
 	    }
 	    if (line.next != null) {
 		in.append('\n');
-		if (convertNewline2Br) {
-		    in.append("<br/>");
-		}
 	    }
 	    line = line.next;
 	}
@@ -820,7 +820,7 @@ public class Emitter {
 
     /**
      * Writes a set of raw lines into the StringBuilder.
-     * 
+     *
      * @param out
      *            The StringBuilder to write to.
      * @param lines
@@ -866,7 +866,7 @@ public class Emitter {
 
     /**
      * Writes a code block into the StringBuilder.
-     * 
+     *
      * @param out
      *            The StringBuilder to write to.
      * @param lines
@@ -880,18 +880,19 @@ public class Emitter {
 	if (this.config.codeBlockEmitter != null) {
 	    final ArrayList<String> list = new ArrayList<String>();
 	    while (line != null) {
-		if (line.isEmpty)
+		if (line.isEmpty) {
 		    list.add("");
-		else
+		} else {
 		    list.add(removeIndent ? line.value.substring(4)
 			    : line.value);
+		}
 		line = line.next;
 	    }
 	    this.config.codeBlockEmitter.emitBlock(out, list, meta);
 	} else {
 	    while (line != null) {
 		if (!line.isEmpty) {
-		    for (int i = 4; i < line.value.length(); i++) {
+		    for (int i = removeIndent ? 4 : 0; i < line.value.length(); i++) {
 			final char c;
 			switch (c = line.value.charAt(i)) {
 			case '&':
@@ -913,5 +914,9 @@ public class Emitter {
 		line = line.next;
 	    }
 	}
+    }
+
+    public void finishDocument(final StringBuilder out) {
+	this.config.decorator.closeDocument(out);
     }
 }

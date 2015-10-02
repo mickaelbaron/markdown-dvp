@@ -256,12 +256,12 @@ public class DefaultDecorator implements Decorator {
     }
 
     @Override
-    public void closeDocument(StringBuilder out) {
+    public void closeLink(StringBuilder out) {
+	out.append("</a>");
     }
 
     @Override
-    public void closeLink(StringBuilder out) {
-	out.append("</a>");
+    public void closeDocument(StringBuilder out) {
     }
 
     @Override
@@ -278,5 +278,10 @@ public class DefaultDecorator implements Decorator {
 	    Utils.appendValue(out, title, 0, title.length());
 	    out.append('"');
 	}
+    }
+
+    @Override
+    public void closeImage(StringBuilder out) {
+	out.append(" />");
     }
 }

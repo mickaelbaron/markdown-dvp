@@ -11,7 +11,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses(value = {
 	MarkupFileTesterWithDocument.class,
 	MarkupFileTesterWithoutDocument.class,
-	MarkupFileTesterWithoutDocumentAndWithExtensions.class}
+	MarkupFileTesterWithoutDocumentAndWithExtensions.class,
+	MarkupFileTesterWithoutDocumentWithExtensionsAndForCodeBlockEmitter.class}
 	)
 public class AllFunctionalTests {
 }

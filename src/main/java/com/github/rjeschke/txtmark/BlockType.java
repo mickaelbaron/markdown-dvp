@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 René Jeschke <rene_jeschke@yahoo.de>
+ * Copyright (C) 2011-2015 René Jeschke <rene_jeschke@yahoo.de>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,21 +17,33 @@ package com.github.rjeschke.txtmark;
 
 /**
  * Block type enum.
- * 
+ *
  * @author René Jeschke <rene_jeschke@yahoo.de>
  */
-enum BlockType {
+enum BlockType
+{
     /** Unspecified. Used for root block and list items without paragraphs. */
-    NONE, /** A block quote. */
-    BLOCKQUOTE, /** A code block. */
-    CODE, /** A fenced code block. */
-    FENCED_CODE, /** A headline. */
-    HEADLINE, /** A list item. */
-    LIST_ITEM, /** An ordered list. */
-    ORDERED_LIST, /** A paragraph. */
-    PARAGRAPH, /** A horizontal ruler. */
-    RULER, /** An unordered list. */
-    UNORDERED_LIST, /** A XML block. */
-    XML, /** A image block. */
+    NONE,
+    /** A block quote. */
+    BLOCKQUOTE,
+    /** A code block. */
+    CODE,
+    /** A fenced code block. */
+    FENCED_CODE,
+    /** A headline. */
+    HEADLINE,
+    /** A list item. */
+    LIST_ITEM,
+    /** An ordered list. */
+    ORDERED_LIST,
+    /** A paragraph. */
+    PARAGRAPH,
+    /** A horizontal ruler. */
+    RULER,
+    /** An unordered list. */
+    UNORDERED_LIST,
+    /** A XML block. */
+    XML,
+    /** A image block. */
     IMAGE
 }
