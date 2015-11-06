@@ -514,6 +514,7 @@ public class Emitter {
 		    out.append(in.charAt(pos));
 		}
 		break;
+		// TODO: MB
 //	    case STRIKE:
 //		temp.setLength(0);
 //		b = this.recursiveEmitLine(temp, in, pos + 2, mt);
@@ -610,10 +611,11 @@ public class Emitter {
 		out.append("&mdash;");
 		pos += 2;
 		break;
-	    case X_HELLIP:
-		out.append("&hellip;");
-		pos += 2;
-		break;
+		// TODO : MB
+//	    case X_HELLIP:
+//		out.append("&hellip;");
+//		pos += 2;
+//		break;
 	    case X_LAQUO:
 		out.append("&laquo;");
 		pos++;
