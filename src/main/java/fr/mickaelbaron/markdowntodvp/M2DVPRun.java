@@ -21,7 +21,7 @@ import com.github.rjeschke.txtmark.Processor;
  * </p>
  * 
  * <pre>
- * <code>java -jar markdowntodvp.jar filename --headerfooterfile=header_footer_file --format=dvp
+ * <code>java -jar markdowntodvp.jar filename --headerfooterfile=header_footer_file --format=dvp --useextension=true
  * </code>
  * </pre>
  * 
@@ -31,7 +31,7 @@ import com.github.rjeschke.txtmark.Processor;
  * </p>
  * 
  * <p>
- * The following line separates header from footer
+ * The following line separates header from footer.
  * </p>
  * 
  * <pre>
